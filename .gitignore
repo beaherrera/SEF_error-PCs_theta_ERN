@@ -1,5 +1,5 @@
 # List of untracked files to ignore
-src/resources/
+src_matlab/resources/
 
 # Windows default autosave extension
 *.asv
