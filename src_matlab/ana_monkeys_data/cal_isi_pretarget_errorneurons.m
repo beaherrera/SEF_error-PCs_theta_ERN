@@ -19,8 +19,8 @@ Sess_XP2P3 = [20:25 26:29]; % Xena, 21-22 site P2, 26-29 site P3
 SessNumb = [Sess_EuP1, Sess_XP2P3];
 
 % load electrodes' co-registration across sessions and monkeys
-load(fullfile('data','eleAlignment.mat'))
-load(fullfile('data','neuronsInfoAmirSteven.mat'))
+load(fullfile('data','eleAlignment.mat'), 'eleAlignment')
+load(fullfile('data','neuronsInfoAmirSteven.mat'), 'neuronsInfo')
 
 %% electrodes layer assignment
 
