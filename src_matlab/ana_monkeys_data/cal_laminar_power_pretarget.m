@@ -14,8 +14,8 @@ path2data = fullfile('data', 'monkeys_data','laminar_data'); % IMPORTANT: you
 %% perpendicular sessions
 
 % sessions number
-Sess_EuP1 = 14:19; % Euler, site P1
-Sess_XP2P3 = [20:25 26:29]; % Xena, 21-22 site P2, 26-29 site P3
+Sess_EuP1 = 14:19; % Eu, site P1
+Sess_XP2P3 = [20:25 26:29]; % X, 20-26 site P2, 26-29 site P3
 SessNumb = [Sess_EuP1, Sess_XP2P3];
 
 % load electrodes' co-registration across sessions and monkeys
@@ -463,13 +463,3 @@ if saveFigures==1
 end
 %%
 close all
-
-%% sub-functions
-
-function data_mat = lock2event(data_cell, time_cell)
-
-data_mat = cellfun(@(time, data) data(:, time >= -.5 & time <= 1.), ...
-    time_cell, data_cell, "UniformOutput",false);
-data_mat = cat(3, data_mat{:});
-
-end

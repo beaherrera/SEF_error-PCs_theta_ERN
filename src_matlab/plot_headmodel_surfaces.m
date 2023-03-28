@@ -82,7 +82,7 @@ text(electrodes(selected_electrodes, 1), electrodes(selected_electrodes, 2), ...
 %% plot dipoles
 
 load(fullfile(path2folder, 'tess_cortex_pial.mat'))
-load('SEF_vert_and_orint.mat')
+load('SEF_vert_and_orient.mat')
 
 figure;
 V = [1 1 1].*196./255; %[0.6350 0.0780 0.1840];

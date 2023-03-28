@@ -60,7 +60,7 @@ Kemon_left = Hn*Keoo(selected_electrodes,:); clearvars Keoo
 load('data\head_model_NMTv2\lead_fields\leadFieldMonBEMVert12535Cdip.mat', 'Keoo')
 Kemon_right = Hn*Keoo(selected_electrodes,:); clearvars Keoo
 
-load("data\head_model_NMTv2\SEF_vert_and_orint.mat", 'orientation')
+load("data\head_model_NMTv2\SEF_vert_and_orient.mat", 'orientation')
 
 %% Eu's EEG
 

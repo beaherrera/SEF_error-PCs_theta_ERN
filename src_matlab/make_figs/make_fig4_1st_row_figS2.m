@@ -18,8 +18,8 @@ path2tfdata_saccade = fullfile(path2data, 'laminar_power_saccade');
 %% perpendicular sessions
 
 % sessions number
-Sess_EuP1 = 14:19; % Euler, site P1
-Sess_XP2P3 = [20:25 26:29]; % Xena, 21-22 site P2, 26-29 site P3
+Sess_EuP1 = 14:19; % Eu, site P1
+Sess_XP2P3 = [20:25 26:29]; % X, 20-25 site P2, 26-29 site P3
 SessNumb = [Sess_EuP1, Sess_XP2P3];
 
 %% electrodes

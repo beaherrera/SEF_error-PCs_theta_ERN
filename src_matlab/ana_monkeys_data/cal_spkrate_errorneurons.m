@@ -14,8 +14,8 @@ loadPath = fullfile('data', 'monkeys_data','laminar_data'); % IMPORTANT: you
 %% perpendicular sessions
 
 % sessions number
-Sess_EuP1 = 14:19; % Euler, site P1
-Sess_XP2P3 = [20:25 26:29]; % Xena, 21-22 site P2, 26-29 site P3
+Sess_EuP1 = 14:19; % Eu, site P1
+Sess_XP2P3 = [20:25 26:29]; % X, 20-26 site P2, 26-29 site P3
 SessNumb = [Sess_EuP1, Sess_XP2P3];
 
 % load electrodes' co-registration across sessions and monkeys
@@ -32,17 +32,6 @@ selL5unitsBasedonSpking(ismember(SessNumb,[15 17 18 19])) = {[1 2],...
 selL3unitsBasedonSpking = cell(1, length(SessNumb));
 selL3unitsBasedonSpking(ismember(SessNumb,14:19)) = {[1 3 4], [1 2], 1,...
     [1 2], 1:3, 1:3};
-
-%% perpendicular sessions
-
-% sessions number
-Sess_EuP1 = 14:19; % Euler, site P1
-Sess_XP2P3 = [20:25 26:29]; % Xena, 21-22 site P2, 26-29 site P3
-SessNumb = [Sess_EuP1, Sess_XP2P3];
-
-% load electrodes' co-registration across sessions and monkeys
-load(fullfile('data','eleAlignment.mat'))
-load(fullfile('data','neuronsInfoAmirSteven.mat'))
 
 %% electrodes layer assignment
 
