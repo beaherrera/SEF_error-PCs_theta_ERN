@@ -1,5 +1,7 @@
 # List of untracked files to ignore
 src_matlab/resources/
+src_matlab/data/monkeys_data/laminar_power_saccade/
+src_matlab/data/monkeys_data/laminar_power_target/
 
 # Windows default autosave extension
 *.asv
