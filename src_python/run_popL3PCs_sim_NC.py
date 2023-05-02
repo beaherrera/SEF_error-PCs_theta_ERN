@@ -66,7 +66,9 @@ def main():
         trials_ID = trials_indices
         job_0 = True
 
-        main_path_folder = os.path.join(r"E:\results_L3PCsPopMky", child_folder)
+        main_path_folder = os.path.join(
+            r"D:\test_theta_paper\results_L3PCsPopMky", child_folder
+        )
         # path to the main folder where results will be saved
 
     else:  # if running on a cluster
@@ -249,7 +251,7 @@ def main():
             stimulusType, **{"rates_dend": rates_dend, "rates_apic": rates_apic}
         )
         data_folder = create_output_folder_L3Pop(
-            main_path_folder, POPULATION_SIZE, stimulusType, inputParameters
+            main_path_folder, POPULATION_SIZE, stimulusType
         )
 
         save_events = {

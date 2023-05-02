@@ -7,7 +7,7 @@ POPULATION_SIZE = 100;
 
 % specify pop of neurons to be analyzed
 population_type_stim = 'L3PCs_off'; %
-% options: 
+% options:
 %   L3PCs_off or L5PCs_off -> no synchronized stimulus in either of the
 %       populations.
 %   L3PCs_on or L5PCs_on -> synchronized stimulus at 1s.
@@ -61,65 +61,56 @@ ts = 0:dt:simulation_length;  %[s] time span neglecting the warmup period
 
 Fs_lfp = 1e3; % targeted LFP sampling rate
 
-%% pre-allocating memory for APs and Ca spks times cell-array
-APs_times = cell(POPULATION_SIZE,1);
-Caspks_times = cell(POPULATION_SIZE,1);
-
 %% loading data and performing pre-processing
 
 for ii = 1:POPULATION_SIZE % loop for the cells
-
+    
     neuron_num = ii - 1;
-
+    
     sprintf('Neuron #%d', ii)
-
+    
     % load somatic and dendritic membrane potentials
     loadPath1 = fullfile(data_folder,...
         ['NeuronsData_r' num2str(runNumb) '_n#'...
         num2str(neuron_num) '_'...
         fileName '.mat']);
-
-    load(loadPath1, 'Vs', 'v_mbp', 'soma_spkTimes', 'dend_spkTimes')
-
-    %% saving spikes times
-
-    APs_times{ii} = soma_spkTimes;
-    Caspks_times{ii} = dend_spkTimes;
-
+    
+    load(loadPath1, 'Vs', 'v_mbp')
+    
     %% remove warm up period
     Vs = Vs(ts_all>=warmup_period);
     v_mbp = v_mbp(ts_all>=warmup_period);
-
+    
     %% amplitude/phase analysis on the membrane potential
-
+    
     % -- filter at theta and alpha bands
     Vs_theta = eegfilt(Vs, Fs, 4, 8);
-
+    
     v_mbp_theta = eegfilt(v_mbp, Fs, 4, 8);
-
+    
     % -- compute Hilbert Transform
     Vs_theta_hilbert = hilbert(Vs_theta);
     Vmbp_theta_hilbert = hilbert(v_mbp_theta);
-
+    
     % -- compute instantaneous phase and amplitude envelope
     Phi_VsTheta = angle(Vs_theta_hilbert); % time series of the phases of
     % the signal
     Amp_VsTheta = abs(Vs_theta_hilbert); % time series of the amplitude
     % envelope of the signal
-
+    
     Phi_VmbpTheta = angle(Vmbp_theta_hilbert); % time series of the phases
     % of the signal
     Amp_VmbpTheta = abs(Vmbp_theta_hilbert); % time series of the amplitude
     % envelope of the signal
-
+    
     %% store data
-
+    
     if ii==1
         Phi_VsThetaR = Phi_VsTheta;
         Amp_VsThetaR = Amp_VsTheta;
         Phi_VdThetaR = Phi_VmbpTheta;
         Amp_VdThetaR = Amp_VmbpTheta;
-
+        
         VsR = Vs;
         VdR = v_mbp;
     else
@@ -127,11 +118,11 @@ for ii = 1:POPULATION_SIZE % loop for the cells
         Amp_VsThetaR = cat(1, Amp_VsThetaR, Amp_VsTheta);
         Phi_VdThetaR = cat(1, Phi_VdThetaR, Phi_VmbpTheta);
         Amp_VdThetaR = cat(1, Amp_VdThetaR, Amp_VmbpTheta);
-
+        
         VsR = cat(1, VsR, Vs);
         VdR = cat(1, VdR, v_mbp);
     end
-
+    
 end
 
 %% save Phase/Amp Data and membrane potentials of all cells
@@ -141,11 +132,6 @@ save(saveName, 'Phi_VsThetaR', 'Amp_VsThetaR', 'Phi_VdThetaR', 'Amp_VdThetaR')
 
 saveName = fullfile(data_folder, ['MemPotentials_' fileName '.mat']);
 save(saveName, 'VsR', 'VdR')
-
-%% save the spike times -> APs and Ca spikes
-
-saveName = fullfile(data_folder, ['SpikeTimes_' fileName '.mat']);
-save(saveName, 'APs_times', 'Caspks_times')
 
 %% process the extracellular potentials
 
@@ -173,12 +159,35 @@ save(saveName, 'VeD','ts_out','Fs_new', 'ft_lfp')
 [p_Vd, f_Vd] = pspectrum(VdR',Fs,'FrequencyLimits',[2 30],...
     'FrequencyResolution', 1);
 
-%% Fig 5 - membrane potential plots
+%% fit a/f^b curve to the power spectrum of membrane potentials
+% if population_type_stim = 'L3PCs_off' or 'L3PCs_on'
+
+if strcmp(population_type_stim, 'L3PCs_off') || strcmp(population_type_stim, 'L3PCs_on')
+    % somatic membrane potential
+    p_Vs_mean = mean(p_Vs, 2, "omitnan")';
+    p_Vs_std = std(p_Vs, 0, 2, "omitnan")';
+    
+    % dendritic membrane potential
+    p_Vd_mean = mean(p_Vd, 2, "omitnan")';
+    p_Vd_std = std(p_Vd, 0, 2, "omitnan")';
+    
+    % fit type
+    ft=fittype(@(a, b, x) a./(x.^b), 'coefficients',{'a', 'b'},'independent',{'x'});
+    
+    % fitting
+    [fitobject_pVs, gof_pVs] = fit(f_Vs, ...
+        p_Vs_mean', ft);
+    [fitobject_pVd, gof_pVd] = fit(f_Vd, ...
+        p_Vd_mean', ft);
+    
+end
+
+%% Fig 5 & suppl fig - membrane potential plots
 
 font = 10;
 
 figure('Units', 'inches','Position',[0 0 4.5 5.5]);
-tiledlayout(3, 1,'TileSpacing','Compact','Padding','Compact');
+tiledlayout(2, 1,'TileSpacing','Compact','Padding','Compact');
 
 nexttile;
 plot(ts, VsR(1,:), '-', 'LineWidth',1.5, 'Color',[0 128 255]./255)
@@ -198,21 +207,39 @@ set(gca,'linewidth',1,'fontsize',font,'fontweight','bold')
 
 nexttile;
 hold on;
-plot(f_Vs,(p_Vs), ...
-    'LineWidth', 1.5)
-hold off;
-xticks([1:9, 10:5:60])
-xticklabels({})
-xlim([2 30])
-box off
-title('Somatic Membrane Potential')
-ylabel({'Power (mV^2)'})
-set(gca,'linewidth',1.5,'fontsize',font,'fontweight','bold')
-
-nexttile;
+% soma
+x2 = [f_Vs', fliplr(f_Vs')];
+inBetween1 = [p_Vs_mean,...
+    fliplr(p_Vs_mean-(1.96.*p_Vs_std))];
+fill(x2, inBetween1, [0 128 255]./255, 'FaceAlpha', 0.2, ...
+    'EdgeColor', 'none');
+inBetween2 = [p_Vs_mean+(1.96.*p_Vs_std),...
+    fliplr(p_Vs_mean)];
+fill(x2, inBetween2, [0 128 255]./255, 'FaceAlpha', 0.2, ...
+    'EdgeColor', 'none');
+p1 = plot(f_Vs',p_Vs_mean, ...
+    'LineWidth', 1.5, 'Color', [0 128 255]./255);
+if strcmp(population_type_stim, 'L3PCs_off') || strcmp(population_type_stim, 'L3PCs_on')
+    p2 = plot(f_Vs',feval(fitobject_pVs, f_Vs'), '--', ...
+        'LineWidth', 2, 'Color', [0 204 0]./255);
+end
+% dendrites
 hold on;
-plot(f_Vd,(p_Vd), ...
-    'LineWidth', 1.5)
+x2 = [f_Vs', fliplr(f_Vs')];
+inBetween1 = [p_Vd_mean,...
+    fliplr(p_Vd_mean-(1.96.*p_Vd_std))];
+fill(x2, inBetween1, [255 102 102]./255, 'FaceAlpha', 0.2, ...
+    'EdgeColor', 'none');
+inBetween2 = [p_Vd_mean+(1.96.*p_Vd_std),...
+    fliplr(p_Vd_mean)];
+fill(x2, inBetween2, [255 102 102]./255, 'FaceAlpha', 0.2, ...
+    'EdgeColor', 'none');
+p3 = plot(f_Vd,p_Vd_mean, ...
+    'LineWidth', 1.5, 'Color', [255 102 102]./255);
+if strcmp(population_type_stim, 'L3PCs_off') || strcmp(population_type_stim, 'L3PCs_on')
+    p4 = plot(f_Vd',feval(fitobject_pVd, f_Vd'), '--', ...
+        'LineWidth', 2, 'Color', [0 204 0]./255);
+end
 hold off;
 xticks([1:9, 10:5:60])
 xticksLbs = {''};
@@ -223,75 +250,26 @@ for jj=[2:9, 10:5:60]
         xticksLbs = cat(1,xticksLbs,{''});
     end
 end
+if strcmp(population_type_stim, 'L3PCs_off') || strcmp(population_type_stim, 'L3PCs_on')
+    legend([p1 p2 p3 p4], {'Soma', sprintf(['a/f^b fit: a = %.2f, b = %.2f ' ...
+        '| R^2 = %.2f'], round(fitobject_pVs.a,2), ...
+        round(fitobject_pVs.b,2),round(gof_pVs.rsquare,2)), ...
+        'Dendrites', sprintf(['a/f^b fit: a = %.2f, b = %.2f ' ...
+        '| R^2 = %.2f'], round(fitobject_pVd.a,2), ...
+        round(fitobject_pVd.b,2),round(gof_pVd.rsquare,2))}, 'box', 'off')
+else
+    legend([p1 p3], {'Soma', 'Dendrites'}, 'box', 'off')
+end
 xticklabels(xticksLbs)
-xlim([2 30])
-title('Dendritic Membrane Potential')
+xlim([2 20])
 xlabel('Frequency (Hz)')
 box off
 ylabel({'Power (mV^2)'})
 set(gca,'linewidth',1.5,'fontsize',font,'fontweight','bold')
 
-%% Fig 5 - plot theta phase
+%% calculate the LFP laminar theta power
 
-font = 10;
-
-figure('Units', 'inches','Position',[0 0 4.5 4]);
-tiledlayout(2, 1,'TileSpacing','Compact','Padding','Compact');
-
-nexttile;
-hold on;
-plot(ts, Phi_VsThetaR', '-', 'LineWidth',1.5)
-box off
-xlim([0 2])
-xticklabels({})
-% xlabel('Time (s)')
-ylabel('Soma')
-title('Membrane Potential Theta Phase (rad)')
-% legend({'Soma', 'Dendrites', 'Location', 'best'})
-set(gca,'linewidth',1,'fontsize',font,'fontweight','bold')
-
-nexttile;
-hold on;
-plot(ts, Phi_VdThetaR', '-', 'LineWidth',1.5)
-box off
-xlim([0 2])
-xlabel('Time (s)')
-ylabel('Dendrites')
-% legend({'Soma', 'Dendrites', 'Location', 'best'})
-set(gca,'linewidth',1,'fontsize',font,'fontweight','bold')
-
-%% LFP power spectrum
-
-[p_LFP, f_LFP] = pspectrum(ft_lfp.trial{1,1}'.*1e3,Fs_lfp,'FrequencyLimits',[2 30],...
-    'FrequencyResolution', 1);
-
-%% plot
-
-font = 10;
-
-figure('Units', 'inches','Position',[0.05 0.05 4 1.5]);
-plot(f_LFP,(p_LFP), ...
-    'LineWidth', 1.25)
-xticks([1:9, 10:5:60])
-xticksLbs = {''};
-for jj=[2:9, 10:5:60]
-    if jj ==5 || jj>=10
-        xticksLbs = cat(1,xticksLbs,{sprintf('%.0f',jj)});
-    else
-        xticksLbs = cat(1,xticksLbs,{''});
-    end
-end
-xticklabels(xticksLbs)
-xlim([4 30])
-box off
-title('LFP')
-xlabel('Frequency (Hz)')
-ylabel({'Power (\muV^2)'})
-set(gca,'linewidth',1.5,'fontsize',9,'fontweight','bold')
-
-%% calculate the lfp laminar theta power
-
-% baseline correction
+% baseline correction and filtering of the LFP
 LFP_theta = eegfilt(ft_lfp.trial{1,1} - mean(ft_lfp.trial{1,1}(:,1:200),2), ...
     Fs_lfp, 4, 8);
 
@@ -300,16 +278,55 @@ LFP_theta_hilbert = hilbert(LFP_theta')';
 % calculate the power
 power_VeDtheta = abs(LFP_theta_hilbert).^2;
 
-%% plot
+%% Fig 5 - plot theta phase and LFP laminar theta power
 
-figure('Units', 'inches','Position',[0.05 0.05 4 2.5]);
-imagesc(ts_out, 1:16, power_VeDtheta);
-xlim([0 2])
-hold off
+font = 10;
+
+figure('Units', 'inches','Position',[0 0 4.5 5]);
+tiledlayout(3, 1,'TileSpacing','Compact','Padding','Compact');
+
+t1 = nexttile;
+imagesc(ts(ts>=0 & ts<=2) - 1, 1:100, Phi_VsThetaR(:,(ts>=0 & ts<=2)));
+xticklabels({})
+colormap(t1, "hsv")
+caxis([-3.1416 3.1416])
+c = colorbar;
+c.Label.String = 'Theta Phase';
+c.LineWidth = 1.5;
+c.Ticks = [-3.1416 0 3.1416];
+c.TickLabels = {'-\pi', '0', '\pi'};
+c.FontSize = font;
+c.FontWeight = 'bold';
+ylabel('Neurons')
+title('Somatic Membrane Potential')
+set(gca,'linewidth',1.75,'fontsize',font,'fontweight','bold')
+
+t2 = nexttile;
+imagesc(ts(ts>=0 & ts<=2) - 1, 1:100, Phi_VdThetaR(:,(ts>=0 & ts<=2)));
+xticklabels({})
+ylabel('Neurons')
+colormap(t2, "hsv")
+caxis([-3.1416 3.1416])
+c = colorbar;
+c.Label.String = 'Theta Phase';
+c.LineWidth = 1.5;
+c.Ticks = [-3.1416 0 3.1416];
+c.TickLabels = {'-\pi', '0', '\pi'};
+c.FontSize = font;
+c.FontWeight = 'bold';
+ylabel('Neurons')
+title('Dendritic Membrane Potential')
+set(gca,'linewidth',1.75,'fontsize',font,'fontweight','bold')
+
+t3 = nexttile;
+imagesc(ts_out(ts_out>=0 & ts_out<=2) - 1, 1:16, power_interp');
 c = colorbar;
 c.Label.String = '\muV^2';
+c.FontSize = font;
+c.FontWeight = 'bold';
+c.LineWidth = 1.5;
 ylabel('Electrodes')
 title('LFP theta power')
-colormap(jet);
-xlabel('Time (s)')
-set(gca,'linewidth',2,'fontsize',10,'fontweight','bold')
+colormap(t3, jet);
+xlabel('Time from Stimulus Onset (s)')
+set(gca,'linewidth',1.75,'fontsize',font,'fontweight','bold')

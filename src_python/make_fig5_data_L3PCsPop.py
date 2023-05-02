@@ -16,6 +16,8 @@ Synapse Configuration: distributed synapses.
     generated from a generalized Gaussian with mean
     'mu' and standard deviation 'sigma'.
 
+Default values for the parameters are set for the no synchronized input case.
+
 """
 from __future__ import division
 import gc
@@ -61,7 +63,7 @@ def main():
 
         # path to folder where results will be saved
         main_path_folder = os.path.join(
-            r"D:\Theta_paper_sim\results_L3PCsPopMky", child_folder
+            r"D:\test_theta_paper\results_L3PCsPopMky", child_folder
         )
     else:  # if running on cluster
         # distribute trials across slurm job array tasks
@@ -122,7 +124,7 @@ def main():
         "rhythmicity_sim": True,  # for separating distributed synapses
         # into apic and basal instead of proximal and distal dendrites
         #
-        "Gaussian_Input": True,  # turn-on time-locked inputs, otherwise:
+        "Gaussian_Input": False,  # turn-on time-locked inputs, otherwise:
         # only background inputs are inserted
         "a": 2,  # shape parameter -> Gaussian
         "mu": warmup_period + 1000,  # ms, center of the Gaussian
@@ -191,7 +193,7 @@ def main():
             stimulusType, **{"rates_dend": rates_dend, "rates_apic": rates_apic}
         )
         data_folder = create_output_folder_L3Pop(
-            main_path_folder, POPULATION_SIZE, stimulusType, inputParameters
+            main_path_folder, POPULATION_SIZE, stimulusType
         )
 
     else:

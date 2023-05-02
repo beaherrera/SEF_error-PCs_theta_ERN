@@ -287,19 +287,40 @@ def get_synp_dist_L5PCs(tstop, **kwargs):
             tstart=tstart_AMPA,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_AMPA_dend"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_AMPA_dend"]) * 1e3
+                    if "r_AMPA_dend" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
         "args_oblq": dict(
             tstart=tstart_AMPA,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_AMPA_oblq"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_AMPA_oblq"]) * 1e3
+                    if "r_AMPA_oblq" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
         "args_apic": dict(
             tstart=tstart_AMPA,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_AMPA_apic"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_AMPA_apic"]) * 1e3
+                    if "r_AMPA_apic" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
     }
 
@@ -311,19 +332,40 @@ def get_synp_dist_L5PCs(tstop, **kwargs):
             tstart=tstart_NMDA,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_NMDA_dend"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_NMDA_dend"]) * 1e3
+                    if "r_NMDA_dend" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
         "args_oblq": dict(
             tstart=tstart_NMDA,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_NMDA_oblq"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_NMDA_oblq"]) * 1e3
+                    if "r_NMDA_oblq" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
         "args_apic": dict(
             tstart=tstart_NMDA,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_NMDA_apic"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_NMDA_apic"]) * 1e3
+                    if "r_NMDA_apic" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
     }
 
@@ -349,19 +391,40 @@ def get_synp_dist_L5PCs(tstop, **kwargs):
             tstart=tstart_GABAA,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_GABAA_dend"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_GABAA_dend"]) * 1e3
+                    if "r_GABAA_dend" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
         "args_oblq": dict(
             tstart=tstart_GABAA,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_GABAA_oblq"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_GABAA_oblq"]) * 1e3
+                    if "r_GABAA_oblq" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
         "args_apic": dict(
             tstart=tstart_GABAA,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_GABAA_apic"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_GABAA_apic"]) * 1e3
+                    if "r_GABAA_apic" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
     }
 
@@ -373,19 +436,40 @@ def get_synp_dist_L5PCs(tstop, **kwargs):
             tstart=tstart_GABAB,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_GABAB_dend"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_GABAB_dend"]) * 1e3
+                    if "r_GABAB_dend" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
         "args_oblq": dict(
             tstart=tstart_GABAB,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_GABAB_oblq"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_GABAB_oblq"]) * 1e3
+                    if "r_GABAB_oblq" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
         "args_apic": dict(
             tstart=tstart_GABAB,
             tstop=tstop,
             distribution=st.expon,
-            rvs_args=dict(loc=0.0, scale=(1 / kwargs["r_GABAB_apic"]) * 1e3),
+            rvs_args=dict(
+                loc=0.0,
+                scale=(
+                    (1 / kwargs["r_GABAB_apic"]) * 1e3
+                    if "r_GABAB_apic" in kwargs.keys()
+                    else 0
+                ),
+            ),
         ),
     }
 

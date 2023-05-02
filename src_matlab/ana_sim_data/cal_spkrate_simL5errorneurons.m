@@ -17,13 +17,11 @@ file_name = 'Dend_r2_Apic_r0.5';
 
 %% load events time
 
-load(fullfile(path_simData_Go, ...
-    ['events_timing_' file_name '.mat']))
+load(fullfile('data', 'sim_data', 'events_timing_Go.mat'))
 saccade_times_Go = saccade_times;
 target_times_Go = target_times;
 
-load(fullfile(path_simData_NC, ...
-    ['events_timing_' file_name '.mat']))
+load(fullfile('data', 'sim_data', 'events_timing_NC.mat'))
 saccade_times_NC = saccade_times;
 target_times_NC = target_times;
 

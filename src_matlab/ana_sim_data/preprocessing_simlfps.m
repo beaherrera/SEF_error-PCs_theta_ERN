@@ -49,13 +49,11 @@ ts_out = 0:(Fs_lfp^-1):simulation_length;
 %% load events time | ms
 trials_number = 1:20;
 
-load(fullfile(path_simData_Go_L3, ...
-    ['events_timing_' file_name_L3 '.mat']))
+load(fullfile('data', 'sim_data', 'events_timing_Go.mat'))
 saccade_times_Go = double(saccade_times(1,trials_number))';
 target_times_Go = double(target_times(1,trials_number))';
 
-load(fullfile(path_simData_NC_L3, ...
-    ['events_timing_' file_name_L3 '.mat']))
+load(fullfile('data', 'sim_data', 'events_timing_NC.mat'))
 saccade_times_NC = double(saccade_times(1,trials_number))';
 target_times_NC = double(target_times(1,trials_number))';
 

@@ -59,7 +59,7 @@ def main():
     sim_length = 10000  # ms | length of the simulation, excluding
     # warm up period
 
-    trial_type = "NC_trial"
+    trial_type = "Go_trial"
     child_folder = trial_type + "_Oct10_2022"  # name of the folder
     # where results will be saved
 
@@ -69,7 +69,7 @@ def main():
         job_0 = True
 
         main_path_folder = os.path.join(
-            r"D:\results_L5PCsPopMky", child_folder
+            r"D:\test_theta_paper\results_L5PCsPopMky", child_folder
         )  # path to the folder where results will be saved
 
     else:  # if running on the cluster
@@ -317,7 +317,7 @@ def main():
             }
         )
         data_folder = create_output_folder_L5Pop(
-            main_path_folder, POPULATION_SIZE, stimulusType, inputParameters
+            main_path_folder, POPULATION_SIZE, stimulusType
         )
 
         save_events = {

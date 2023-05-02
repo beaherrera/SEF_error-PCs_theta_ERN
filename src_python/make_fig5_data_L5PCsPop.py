@@ -16,6 +16,8 @@ Synapse Configuration: distributed synapses.
     generated from a generalized Gaussian with mean
     'mu' and standard deviation 'sigma'.
 
+Default values for the parameters are set for the no synchronized input case.
+
 """
 from __future__ import division
 
@@ -65,7 +67,7 @@ def main():
         job_0 = True
 
         main_path_folder = os.path.join(
-            r"D:\Theta_paper_sim\results_L5PCsPopMky", child_folder
+            r"D:\test_theta_paper\results_L5PCsPopMky", child_folder
         )  # path to folder where results will be saved
 
     else:  # if running on cluster
@@ -227,7 +229,7 @@ def main():
             }
         )
         data_folder = create_output_folder_L5Pop(
-            main_path_folder, POPULATION_SIZE, stimulusType, inputParameters
+            main_path_folder, POPULATION_SIZE, stimulusType
         )
 
     else:  # if not rank 0, set data_folder and file_name to None
