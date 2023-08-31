@@ -4,8 +4,8 @@ Main analysis code for replicating biophysical simulations and figures in Herrer
 
 
 ## Description
-- [src_matlab]: MatLab scripts for replicating analysis and figures.
-- [src_python]: Python scripts for running biophysical simulations.
+- [src_matlab](src_matlab): MatLab scripts for replicating analysis and figures.
+- [src_python](src_python): Python scripts for running biophysical simulations.
 
 
 ## Main Dependencies
