@@ -9,7 +9,7 @@ Main analysis codes for generating the figures in Herrera et al. 2023.
     - [surfaces](data\head_model_NMTv2\surfaces): surfaces of the head model.
     - [SEF_vert_and_orient.mat](data\head_model_NMTv2\SEF_vert_and_orient.mat): location and orientation of SEF dipoles.
 - [data/monkeys_data](data\monkeys_data): processed experimental data. Check [README.md](data\monkeys_data\README.md) in this folder for more details.
-- [data/sim_data](data\sim_data): simulated data.
+- [data/sim_data](data\sim_data): simulated data. Check [README.md](data\sim_data\README.md) in this folder for more details.
 - [make_figs](make_figs): codes for making the figures in Herrera et al. 2023.
 - [utils](utils): toolboxes used in the analyses.
 - [Matlab.prj](Matlab.prj): Matlab project.

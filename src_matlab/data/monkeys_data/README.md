@@ -5,7 +5,7 @@
 
 ### folders
 
-Available through the Open Science Framework (OSF): ...; location: OSF Storage folder data/monkeys_data. All files are fieldtrip data structures. Please, download and add the data to this folder before running the analysis scripts. The MATLAB project is already configured to add the data to the MATLAB path.
+Available through the Open Science Framework (OSF): https://osf.io/xs9nq/; location: OSF Storage folder data/monkeys_data. All files are fieldtrip data structures. Please, download and add the data to this folder before running the analysis scripts. The MATLAB project is already configured to add the data to the MATLAB path.
 - laminar_data: laminar field potentials and spiking activity recorded per session relative to target and saccade onset.
     - Session_*_Saccade.mat: LFPs relative to saccade onset for Go (correct) and NC (error) trials.
     - Session_*_Saccade_filt.mat: filtered LFPs relative to saccade onset for Go (correct) and NC (error) trials.
