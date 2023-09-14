@@ -1,9 +1,11 @@
-# HerreraEtAl2023-repo
+# Cortical Origin of Theta Error Signals
 
-Main analysis code for figures in Herrera et al. (2023), "...".
+Main analysis code for replicating biophysical simulations and figures in Herrera et al. (2023).
 
 
 ## Description
+- [src_matlab](src_matlab): MatLab scripts for replicating analysis and figures.
+- [src_python](src_python): Python scripts for running biophysical simulations.
 
 
 ## Main Dependencies
@@ -24,7 +26,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
 
 ## Citation
-Herrera, B., .... **doi**: .
+Herrera, Beatriz, Amirsaman Sajad, Steven P. Errington, Jeffrey D. Schall, and Jorge R. Diaz. "Cortical Origin of Theta Error Signals." *bioRxiv* (2023): 2023-06. **doi**: https://doi.org/10.1101/2023.06.27.546752.
 
 ## Acknowledgments
 This work was supported by NIMH and NEI [grant numbers: R01MH55806, P30EY008126, and R01EY019882], FIU SEED Grant Wallace Coulter Foundation, and Canadian Institutes of Health Research Postdoctoral Fellowship. B. H. was supported by a fellowship from NIMH [F31 MH129101].
