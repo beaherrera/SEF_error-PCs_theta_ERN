@@ -19,3 +19,8 @@ Note: mod files must be compiled before running simulation scripts.
 - [utils](utils): util functions.
 
 ### Dependencies
+- NEURON simulator (release 8.0, http://www.neuron.yale.edu/neuron)
+- Python 3.8
+- LFPy 2.2.2 (https://github.com/LFPy/LFPy)
+- Elephant (https://elephant.readthedocs.io/en/latest/)
+- Neo (https://neo.readthedocs.io/en/latest/)
