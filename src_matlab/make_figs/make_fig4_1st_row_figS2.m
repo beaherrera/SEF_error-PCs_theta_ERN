@@ -1,4 +1,4 @@
-%% calculate stats for laminar power maps and create Fig 4-top and its FigS
+%% calculate stats for laminar power maps and create Fig 4-top and its Suppl Fig (Fig S2)
 
 clear
 clc
@@ -10,7 +10,7 @@ tspan = -500:1000;
 %% path 2 data
 
 path2data = fullfile('data', 'monkeys_data'); % IMPORTANT: you
-% have to download and save the laminar data in this folder 
+% have to download and save the laminar data in this folder
 path2tfdata_target = fullfile(path2data, 'laminar_power_target'); % path 2
 % laminar power relative to the target
 path2tfdata_saccade = fullfile(path2data, 'laminar_power_saccade');
@@ -113,28 +113,28 @@ TFR_Go_alpha_Eu = TFR_Go_theta_Eu;
 TFR_Go_beta_Eu = TFR_Go_theta_Eu;
 TFR_Go_gamma_Eu = TFR_Go_theta_Eu;
 
-TFR_Go_theta_Eu.label = {'theta'}; 
+TFR_Go_theta_Eu.label = {'theta'};
 TFR_Go_theta_Eu.powspctrm = zeros(size(theta_Go_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), 3), length(TFR_Go_theta_Eu.label), ...
     size(theta_Go_cell, 1), size(theta_Go_cell, 2));
 TFR_Go_theta_Eu.powspctrm(:, 1, :, :) = permute(theta_Go_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), [3 1 2]);
 
-TFR_Go_alpha_Eu.label = {'alpha'}; 
+TFR_Go_alpha_Eu.label = {'alpha'};
 TFR_Go_alpha_Eu.powspctrm = zeros(size(alpha_Go_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), 3), length(TFR_Go_alpha_Eu.label), ...
     size(alpha_Go_cell, 1), size(alpha_Go_cell, 2));
 TFR_Go_alpha_Eu.powspctrm(:, 1, :, :) = permute(alpha_Go_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), [3 1 2]);
 
-TFR_Go_beta_Eu.label = {'beta'}; 
+TFR_Go_beta_Eu.label = {'beta'};
 TFR_Go_beta_Eu.powspctrm = zeros(size(beta_Go_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), 3), length(TFR_Go_beta_Eu.label), ...
     size(beta_Go_cell, 1), size(beta_Go_cell, 2));
 TFR_Go_beta_Eu.powspctrm(:, 1, :, :) = permute(beta_Go_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), [3 1 2]);
 
-TFR_Go_gamma_Eu.label = {'gamma'}; 
+TFR_Go_gamma_Eu.label = {'gamma'};
 TFR_Go_gamma_Eu.powspctrm = zeros(size(gamma_Go_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), 3), length(TFR_Go_gamma_Eu.label), ...
     size(gamma_Go_cell, 1), size(gamma_Go_cell, 2));
@@ -152,28 +152,28 @@ TFR_NC_alpha_Eu = TFR_NC_theta_Eu;
 TFR_NC_beta_Eu = TFR_NC_theta_Eu;
 TFR_NC_gamma_Eu = TFR_NC_theta_Eu;
 
-TFR_NC_theta_Eu.label = {'theta'}; 
+TFR_NC_theta_Eu.label = {'theta'};
 TFR_NC_theta_Eu.powspctrm = zeros(size(theta_NC_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), 3), length(TFR_NC_theta_Eu.label), ...
     size(theta_NC_cell, 1), size(theta_NC_cell, 2));
 TFR_NC_theta_Eu.powspctrm(:, 1, :, :) = permute(theta_NC_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), [3 1 2]);
 
-TFR_NC_alpha_Eu.label = {'alpha'}; 
+TFR_NC_alpha_Eu.label = {'alpha'};
 TFR_NC_alpha_Eu.powspctrm = zeros(size(alpha_NC_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), 3), length(TFR_NC_alpha_Eu.label), ...
     size(alpha_NC_cell, 1), size(alpha_NC_cell, 2));
 TFR_NC_alpha_Eu.powspctrm(:, 1, :, :) = permute(alpha_NC_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), [3 1 2]);
 
-TFR_NC_beta_Eu.label = {'beta'}; 
+TFR_NC_beta_Eu.label = {'beta'};
 TFR_NC_beta_Eu.powspctrm = zeros(size(beta_NC_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), 3), length(TFR_NC_beta_Eu.label), ...
     size(beta_NC_cell, 1), size(beta_NC_cell, 2));
 TFR_NC_beta_Eu.powspctrm(:, 1, :, :) = permute(beta_NC_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), [3 1 2]);
 
-TFR_NC_gamma_Eu.label = {'gamma'}; 
+TFR_NC_gamma_Eu.label = {'gamma'};
 TFR_NC_gamma_Eu.powspctrm = zeros(size(gamma_NC_cell(:,:, ...
     ismember(SessNumb, Sess_EuP1)), 3), length(TFR_NC_gamma_Eu.label), ...
     size(gamma_NC_cell, 1), size(gamma_NC_cell, 2));
@@ -193,28 +193,28 @@ TFR_Go_alpha_X = TFR_Go_theta_X;
 TFR_Go_beta_X = TFR_Go_theta_X;
 TFR_Go_gamma_X = TFR_Go_theta_X;
 
-TFR_Go_theta_X.label = {'theta'}; 
+TFR_Go_theta_X.label = {'theta'};
 TFR_Go_theta_X.powspctrm = zeros(size(theta_Go_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), 3), length(TFR_Go_theta_X.label), ...
     size(theta_Go_cell, 1), size(theta_Go_cell, 2));
 TFR_Go_theta_X.powspctrm(:, 1, :, :) = permute(theta_Go_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), [3 1 2]);
 
-TFR_Go_alpha_X.label = {'alpha'}; 
+TFR_Go_alpha_X.label = {'alpha'};
 TFR_Go_alpha_X.powspctrm = zeros(size(alpha_Go_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), 3), length(TFR_Go_alpha_X.label), ...
     size(alpha_Go_cell, 1), size(alpha_Go_cell, 2));
 TFR_Go_alpha_X.powspctrm(:, 1, :, :) = permute(alpha_Go_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), [3 1 2]);
 
-TFR_Go_beta_X.label = {'beta'}; 
+TFR_Go_beta_X.label = {'beta'};
 TFR_Go_beta_X.powspctrm = zeros(size(beta_Go_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), 3), length(TFR_Go_beta_X.label), ...
     size(beta_Go_cell, 1), size(beta_Go_cell, 2));
 TFR_Go_beta_X.powspctrm(:, 1, :, :) = permute(beta_Go_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), [3 1 2]);
 
-TFR_Go_gamma_X.label = {'gamma'}; 
+TFR_Go_gamma_X.label = {'gamma'};
 TFR_Go_gamma_X.powspctrm = zeros(size(gamma_Go_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), 3), length(TFR_Go_gamma_X.label), ...
     size(gamma_Go_cell, 1), size(gamma_Go_cell, 2));
@@ -232,28 +232,28 @@ TFR_NC_alpha_X = TFR_NC_theta_X;
 TFR_NC_beta_X = TFR_NC_theta_X;
 TFR_NC_gamma_X = TFR_NC_theta_X;
 
-TFR_NC_theta_X.label = {'theta'}; 
+TFR_NC_theta_X.label = {'theta'};
 TFR_NC_theta_X.powspctrm = zeros(size(theta_NC_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), 3), length(TFR_NC_theta_X.label), ...
     size(theta_NC_cell, 1), size(theta_NC_cell, 2));
 TFR_NC_theta_X.powspctrm(:, 1, :, :) = permute(theta_NC_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), [3 1 2]);
 
-TFR_NC_alpha_X.label = {'alpha'}; 
+TFR_NC_alpha_X.label = {'alpha'};
 TFR_NC_alpha_X.powspctrm = zeros(size(alpha_NC_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), 3), length(TFR_NC_alpha_X.label), ...
     size(alpha_NC_cell, 1), size(alpha_NC_cell, 2));
 TFR_NC_alpha_X.powspctrm(:, 1, :, :) = permute(alpha_NC_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), [3 1 2]);
 
-TFR_NC_beta_X.label = {'beta'}; 
+TFR_NC_beta_X.label = {'beta'};
 TFR_NC_beta_X.powspctrm = zeros(size(beta_NC_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), 3), length(TFR_NC_beta_X.label), ...
     size(beta_NC_cell, 1), size(beta_NC_cell, 2));
 TFR_NC_beta_X.powspctrm(:, 1, :, :) = permute(beta_NC_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), [3 1 2]);
 
-TFR_NC_gamma_X.label = {'gamma'}; 
+TFR_NC_gamma_X.label = {'gamma'};
 TFR_NC_gamma_X.powspctrm = zeros(size(gamma_NC_cell(:,:, ...
     ismember(SessNumb, Sess_XP2P3)), 3), length(TFR_NC_gamma_X.label), ...
     size(gamma_NC_cell, 1), size(gamma_NC_cell, 2));
@@ -342,7 +342,7 @@ power_Go_X_gamma = mean_fun(TFR_Go_gamma_X.powspctrm);
 power_NC_Eu_gamma = mean_fun(TFR_NC_gamma_Eu.powspctrm);
 power_NC_X_gamma = mean_fun(TFR_NC_gamma_X.powspctrm);
 
-%% save 
+%% save
 
 save(fullfile(path2data, 'sess_avg_power.mat'), 'power_NC_*_*', ...
     'power_Go_*_*')
@@ -488,7 +488,7 @@ ii = ii+1;
 nexttile(ii);
 % caxis_lim = [-1 1].*max(abs([power_Go_Eu_gamma(:,tspan>=-500 & tspan < tspan_max) ...
 %     power_NC_Eu_gamma(:,tspan>=-500 & tspan < tspan_max)]), [], 'all');
-% 
+%
 TFR_plot(tspan, ze, power_Go_Eu_gamma, caxis_lim, z_depth, tspan_max)
 hold on;
 xline(ERN, '--k', 'LineWidth',2)
@@ -520,7 +520,7 @@ ii = ii+1;
 ax4 = nexttile(ii);
 % caxis_lim = [-1 1].*max(abs(power_NC_Eu_gamma(:,tspan>=-500 & tspan < tspan_max) ...
 %     - power_Go_Eu_gamma(:,tspan>=-500 & tspan < tspan_max)), [], 'all');
-% 
+%
 TFR_stats_plot(tspan, ze, power_NC_Eu_gamma - power_Go_Eu_gamma, ...
     squeeze(stats_NCvsGo_Eu_TFR_gamma.mask), caxis_lim_diff, z_depth, tspan_max)
 hold on;

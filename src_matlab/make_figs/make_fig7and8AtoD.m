@@ -2,7 +2,7 @@
 
 clear
 clc
-    
+
 Fs = 1e3; % lfp sampling rate
 ts_saccade = -500:1000; % time span in ms
 tspan = ts_saccade;
@@ -14,8 +14,9 @@ Sess_XP2P3 = 20:29; % X, 20-25 site P2, 26-29 site P3
 
 SessNumb = [Sess_EuP1, Sess_XP2P3];
 
-%% load CSDs
+%% load data
 
+% monkey's CSD
 load("data\monkeys_data\lfp_csd\avg_lfp_csd_sess.mat", 'avg_LFP')
 avg_LFP_sess_Go = structfun(@(x) x.avg_LFP_Go, avg_LFP, ...
     'UniformOutput',false);
@@ -31,14 +32,16 @@ avg_LFP_sess_NC = cat(3, avg_LFP_sess_NC{:});
 grand_avg_LFP_NC_Eu = mean(avg_LFP_sess_NC(:,:,ismember(SessNumb, Sess_EuP1)), ...
     3, 'omitnan');
 
+% simulated CSD (corrected by the number of neurons in SEF)
 load('data\sim_data\simCSD.mat', 'zs_Go_saccade', 'zs_NC_saccade', ...
     'iCSD_Go_saccade', 'iCSD_NC_saccade')
 
+% electrodes' positions
 load("data\head_model_NMTv2\surfaces\electrodes.mat")
 
 %% load lead field matrices
 
-selected_electrodes = [6 11 15 31]; 
+selected_electrodes = [6 11 15 31];
 
 % average reference
 Ne = 4;
@@ -104,7 +107,7 @@ set(gca, 'YDir','reverse', 'XTickLabel',[],'XTick',[],'XColor','None', ...
 
 nexttile(2)
 plot(ts, smoothdata(ERN_NC_avg(1,:), ...
-    'gaussian',10), ':k', 'LineWidth', 3); 
+    'gaussian',10), ':k', 'LineWidth', 3);
 xline(ERN, '--k', 'LineWidth',2)
 xline(Pe, '-.b', 'LineWidth',2)
 yline(0)
@@ -135,13 +138,13 @@ set(gca, 'YDir','reverse', 'XTickLabel',[],'XTick',[],'XColor','None', ...
 
 font = 10;
 
-figure('Units', 'inches','Position',[0.05 0.05 3.5 4]); 
+figure('Units', 'inches','Position',[0.05 0.05 3.5 4]);
 subplot(2,1,1)
 p1 = plot(ts, smoothdata(ERN_Go_avg(1,:), ...
     'gaussian',10), '-k', 'LineWidth', 1.25, "DisplayName", "Correct");
 hold on;
 p2 = plot(ts, smoothdata(ERN_NC_avg(1,:), ...
-    'gaussian',10), ':k', 'LineWidth', 3, "DisplayName", "Error"); 
+    'gaussian',10), ':k', 'LineWidth', 3, "DisplayName", "Error");
 yline(0)
 xline(0)
 xline(ERN, '--k', 'LineWidth',2)
@@ -405,7 +408,7 @@ set(gca, 'box', 'off','linewidth',width,'fontsize',font,'fontweight','bold')
 
 xlabel(t, 'Time from saccade (ms)','fontsize',14,'fontweight','bold')
 
-%% calculate EEG 
+%% calculate EEG
 %% dipolar component
 
 EEG_dip_exp_Go = (Kedip_right*(orientation(2,:)') + ...
@@ -437,7 +440,7 @@ EEG_mon_exp_Go = (Kemon_left + Kemon_right)*(mon_expCSD_Go.*1e-3); % uV
 
 EEG_mon_exp_NC = (Kemon_left + Kemon_right)*(mon_expCSD_NC.*1e-3); % uV
 
-%% sum over mon, dip and quad components 
+%% sum over mon, dip and quad components
 
 EEG_exp_Go = EEG_mon_exp_Go + EEG_quad_exp_Go + EEG_dip_exp_Go;
 EEG_exp_NC = EEG_mon_exp_NC + EEG_quad_exp_NC + EEG_dip_exp_NC;
@@ -586,7 +589,7 @@ set(gca, 'box', 'off','linewidth',width,'fontsize',font,'fontweight','bold')
 
 nexttile
 plot(ts, smoothdata(ERN_NC_avg(1,:), 'gaussian',10), ':k', ...
-    "DisplayName", "Eu EEG", 'LineWidth', 3); 
+    "DisplayName", "Eu EEG", 'LineWidth', 3);
 hold on;
 plot(tspan, EEG_exp_NC(1,:), ...
     ':r','LineWidth',3, "DisplayName", "Eu CSD")
@@ -620,7 +623,7 @@ set(gca, 'box', 'off','linewidth',width,'fontsize',font,'fontweight','bold')
 %% dipole + quadrupole + monopole & sim
 
 font = 12;
-figure('Units', 'inches','Position',[0.05 0.05 13 2.5]); 
+figure('Units', 'inches','Position',[0.05 0.05 13 2.5]);
 subplot(1,3,1)
 plot(ts, smoothdata(ERN_Go_avg(1,:), 'gaussian',10), '-k', ...
     "DisplayName", "Eu EEG", 'LineWidth', 1.25)
@@ -643,7 +646,7 @@ set(gca, 'box', 'off','linewidth',1.5,'fontsize',font,'fontweight','bold')
 
 subplot(1,3,2)
 plot(ts, smoothdata(ERN_NC_avg(1,:), 'gaussian',10), ':k', ...
-    "DisplayName", "Eu EEG", 'LineWidth', 2); 
+    "DisplayName", "Eu EEG", 'LineWidth', 2);
 hold on;
 plot(tspan, EEG_exp_NC(1,:), ...
     ':','LineWidth',3, "DisplayName", "Eu CSD")

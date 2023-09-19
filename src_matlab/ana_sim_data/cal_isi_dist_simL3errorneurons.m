@@ -4,7 +4,8 @@ clear
 clc
 
 %% path to data
-
+% Simulated data for individual neurons was not included in the repository
+% because of its large size.
 path_simData_Go = ['D:\Theta_paper_sim\results_L3PCsPopMky\' ...
     'Go_trial_Sept9_mpi\neurons#10_clustered_synp\' ...
     'StimDend#4_StimApic#4'];
@@ -30,15 +31,15 @@ load("data\sim_data\tone_times.mat")
 
 %% simulation details
 target_times_Go = double(target_times_Go(1,:)).*1e-3; % sec, target times
-saccade_times_Go = double(saccade_times_Go(1,:)).*1e-3; % sec, 
+saccade_times_Go = double(saccade_times_Go(1,:)).*1e-3; % sec,
 % saccade times relative to target
 target_times_NC = double(target_times_NC(1,:)).*1e-3; % sec, target times
-saccade_times_NC = double(saccade_times_NC(1,:)).*1e-3; % sec, 
+saccade_times_NC = double(saccade_times_NC(1,:)).*1e-3; % sec,
 % saccade times relative to target
 tone_times_Go = double(tone_times_Go(1,:)).*1e-3; % sec, tone times
-% relative to saccade 
+% relative to saccade
 tone_times_NC = double(tone_times_NC(1,:)).*1e-3; % sec, tone times
-% relative to saccade 
+% relative to saccade
 
 num_trials = 116; % number of simulated trials
 num_neurons = 10; % number of simulated neurons
@@ -63,16 +64,16 @@ spikes_Go_target.timestamp = cell(1, num_neurons); % spike times in recording sa
 spikes_Go_target.trial = cell(1, num_neurons);
 spikes_Go_target.time = cell(1, num_neurons);
 spikes_Go_target.trialtime = zeros(num_trials, 2);
-spikes_Go_target.trialtime(:,1) = spikes_Go_target.trialtime(:,1) - target_times_Go'; 
-spikes_Go_target.trialtime(:,2) = simulation_length - target_times_Go'; 
+spikes_Go_target.trialtime(:,1) = spikes_Go_target.trialtime(:,1) - target_times_Go';
+spikes_Go_target.trialtime(:,2) = simulation_length - target_times_Go';
 spikes_Go_target.timestampdimord = '{chan}_spike'; % dimension of the spiking data
 
 for n=0:(num_neurons-1)
     
     spikes_Go_target.label{n+1} = ['neuron_' num2str(n)];
-
+    
     for t=1:num_trials
-
+        
         load(fullfile(path_simData_Go, ['NeuronsData_r' num2str(t) '_n#' ...
             '' num2str(n) '_' file_name_Go '.mat']), ...
             'soma_spkTimes')
@@ -94,16 +95,16 @@ spikes_NC_target.timestamp = cell(1, num_neurons); % spike times in recording sa
 spikes_NC_target.trial = cell(1, num_neurons);
 spikes_NC_target.time = cell(1, num_neurons);
 spikes_NC_target.trialtime = zeros(num_trials, 2);
-spikes_NC_target.trialtime(:,1) = spikes_NC_target.trialtime(:,1) - target_times_NC'; 
-spikes_NC_target.trialtime(:,2) = simulation_length - target_times_NC'; 
+spikes_NC_target.trialtime(:,1) = spikes_NC_target.trialtime(:,1) - target_times_NC';
+spikes_NC_target.trialtime(:,2) = simulation_length - target_times_NC';
 spikes_NC_target.timestampdimord = '{chan}_spike'; % dimension of the spiking data
 
 for n=0:(num_neurons-1)
     
     spikes_NC_target.label{n+1} = ['neuron_' num2str(n)];
-
+    
     for t=1:num_trials
-
+        
         load(fullfile(path_simData_NC, ['NeuronsData_r' num2str(t) '_n#' ...
             '' num2str(n) '_' file_name_NC '.mat']), ...
             'soma_spkTimes')
@@ -127,17 +128,17 @@ spikes_Go_saccade.trial = cell(1, num_neurons);
 spikes_Go_saccade.time = cell(1, num_neurons);
 spikes_Go_saccade.trialtime = zeros(num_trials, 2);
 spikes_Go_saccade.trialtime(:,1) = spikes_Go_saccade.trialtime(:,1) - (target_times_Go ...
-    + saccade_times_Go)'; 
+    + saccade_times_Go)';
 spikes_Go_saccade.trialtime(:,2) = simulation_length - (target_times_Go ...
-    + saccade_times_Go)'; 
+    + saccade_times_Go)';
 spikes_Go_saccade.timestampdimord = '{chan}_spike'; % dimension of the spiking data
 
 for n=0:(num_neurons-1)
     
     spikes_Go_saccade.label{n+1} = ['neuron_' num2str(n)];
-
+    
     for t=1:num_trials
-
+        
         load(fullfile(path_simData_Go, ['NeuronsData_r' num2str(t) '_n#' ...
             '' num2str(n) '_' file_name_Go '.mat']), ...
             'soma_spkTimes')
@@ -161,17 +162,17 @@ spikes_NC_saccade.trial = cell(1, num_neurons);
 spikes_NC_saccade.time = cell(1, num_neurons);
 spikes_NC_saccade.trialtime = zeros(num_trials, 2);
 spikes_NC_saccade.trialtime(:,1) = spikes_NC_saccade.trialtime(:,1) - (target_times_NC ...
-    + saccade_times_NC)'; 
+    + saccade_times_NC)';
 spikes_NC_saccade.trialtime(:,2) = simulation_length - (target_times_NC ...
-    + saccade_times_NC)'; 
+    + saccade_times_NC)';
 spikes_NC_saccade.timestampdimord = '{chan}_spike'; % dimension of the spiking data
 
 for n=0:(num_neurons-1)
     
     spikes_NC_saccade.label{n+1} = ['neuron_' num2str(n)];
-
+    
     for t=1:num_trials
-
+        
         load(fullfile(path_simData_NC, ['NeuronsData_r' num2str(t) '_n#' ...
             '' num2str(n) '_' file_name_NC '.mat']), ...
             'soma_spkTimes')
@@ -204,13 +205,13 @@ for ii=1:num_neurons
     cfg.winlen = 0.005;
     cfg.scatter = 'no';
     cfg.colormap = jet(300);
-
+    
     subplot(1,2,1)
     [~, hdl_Go_preTarget.(cfg.spikechannel)] = ft_spike_plot_isireturn(cfg,isih_preTarget_Go);
-
+    
     subplot(1,2,2)
     [~, hdl_NC_preTarget.(cfg.spikechannel)] = ft_spike_plot_isireturn(cfg,isih_preTarge_NC);
-
+    
 end
 
 % close all
@@ -251,13 +252,13 @@ for ii=1:num_neurons
     cfg.winlen = 0.005;
     cfg.scatter = 'no';
     cfg.colormap = jet(300);
-
+    
     subplot(1,2,1)
     [~, hdl_Go_postSaccade.(cfg.spikechannel)] = ft_spike_plot_isireturn(cfg,isih_postSaccade_Go);
-
+    
     subplot(1,2,2)
     [~, hdl_NC_postSaccade.(cfg.spikechannel)] = ft_spike_plot_isireturn(cfg,isih_postSaccade_NC);
-
+    
 end
 
 %% get mean isi dens across neurons

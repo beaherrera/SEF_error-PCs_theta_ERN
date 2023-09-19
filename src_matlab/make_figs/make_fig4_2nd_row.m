@@ -1,4 +1,4 @@
-%% create laminar power plots for sim lfps and cal stats
+%% create laminar power plots for sim lfps and calculate stats
 
 clear
 clc
@@ -6,6 +6,8 @@ clc
 rng('default')
 
 tspan = -500:1000;
+
+scaling = 27.48; % scaling factor to correct by the number of L3 and L5  error PCs in SEF
 
 %% electrodes
 
@@ -18,33 +20,14 @@ z_depth  = [1125:-150:0, 0, -75:-150:-1125]; % mm depth
 
 path2data = fullfile("data/sim_data/processed_lfps");
 
-path_simData_Go_L3 = ['D:\Theta_paper_sim\' ...
-    'results_L3PCsPopMky\Go_trial_Aug30_mpi\' ...
-    'neurons#1000_clustered_synp\StimDend#4_StimApic#4'];
-path_simData_Go_L5 = ['D:\Theta_paper_sim\results_L5PCsPopMky\' ...
-    'Go_trial_Oct10_bsinc4_dend_a0_5_spks2_2_dm70_120_sg140_250_apic_a2_spks1_d100_sg200_mpi\' ...
-    'neurons#1000_clustered_synp\StimDend#4_StimOblq#0_StimApic#4'];
-
-path_simData_NC_L3 = ['D:\Theta_paper_sim\results_L3PCsPopMky\' ...
-    'NC_trial_Aug30_mpi\neurons#1000_clustered_synp\' ...
-    'StimDend#4_StimApic#4'];
-path_simData_NC_L5 = ['D:\Theta_paper_sim\results_L5PCsPopMky\' ...
-    'NC_trial_Oct10_bsinc4_dend_a0_5_spks2_5_dm70_120_sg140_250_apic_a2_5_spks1_d100_280_sg200_mpi\' ...
-    'neurons#1000_clustered_synp\StimDend#4_StimOblq#0_StimApic#4'];
-
-file_name_L3 = 'Dend_r3.5_Apic_r2';
-file_name_L5 = 'Dend_r2_Apic_r0.5';
-
 %% load events time | ms
 trials_number = 1:20;
 
-load(fullfile(path_simData_Go_L3, ...
-    ['events_timing_' file_name_L3 '.mat']))
+load(fullfile('data', 'sim_data', 'events_timing_Go.mat'))
 saccade_times_Go = double(saccade_times(1,trials_number))';
 target_times_Go = double(target_times(1,trials_number))';
 
-load(fullfile(path_simData_NC_L3, ...
-    ['events_timing_' file_name_L3 '.mat']))
+load(fullfile('data', 'sim_data', 'events_timing_NC.mat'))
 saccade_times_NC = double(saccade_times(1,trials_number))';
 target_times_NC = double(target_times(1,trials_number))';
 
@@ -186,22 +169,22 @@ TFR_Go_alpha = TFR_Go_theta;
 TFR_Go_beta = TFR_Go_theta;
 TFR_Go_gamma = TFR_Go_theta;
 
-TFR_Go_theta.label = {'theta'}; 
+TFR_Go_theta.label = {'theta'};
 TFR_Go_theta.powspctrm = zeros(size(theta_Go_cell, 3), length(TFR_Go_theta.label), ...
     size(theta_Go_cell, 1), size(theta_Go_cell, 2));
 TFR_Go_theta.powspctrm(:, 1, :, :) = permute(theta_Go_cell, [3 1 2]);
 
-TFR_Go_alpha.label = {'alpha'}; 
+TFR_Go_alpha.label = {'alpha'};
 TFR_Go_alpha.powspctrm = zeros(size(alpha_Go_cell, 3), length(TFR_Go_alpha.label), ...
     size(alpha_Go_cell, 1), size(alpha_Go_cell, 2));
 TFR_Go_alpha.powspctrm(:, 1, :, :) = permute(alpha_Go_cell, [3 1 2]);
 
-TFR_Go_beta.label = {'beta'}; 
+TFR_Go_beta.label = {'beta'};
 TFR_Go_beta.powspctrm = zeros(size(beta_Go_cell, 3), length(TFR_Go_beta.label), ...
     size(beta_Go_cell, 1), size(beta_Go_cell, 2));
 TFR_Go_beta.powspctrm(:, 1, :, :) = permute(beta_Go_cell, [3 1 2]);
 
-TFR_Go_gamma.label = {'gamma'}; 
+TFR_Go_gamma.label = {'gamma'};
 TFR_Go_gamma.powspctrm = zeros(size(gamma_Go_cell, 3), length(TFR_Go_gamma.label), ...
     size(gamma_Go_cell, 1), size(gamma_Go_cell, 2));
 TFR_Go_gamma.powspctrm(:, 1, :, :) = permute(gamma_Go_cell, [3 1 2]);
@@ -217,22 +200,22 @@ TFR_NC_alpha = TFR_NC_theta;
 TFR_NC_beta = TFR_NC_theta;
 TFR_NC_gamma = TFR_NC_theta;
 
-TFR_NC_theta.label = {'theta'}; 
+TFR_NC_theta.label = {'theta'};
 TFR_NC_theta.powspctrm = zeros(size(theta_NC_cell, 3), length(TFR_NC_theta.label), ...
     size(theta_NC_cell, 1), size(theta_NC_cell, 2));
 TFR_NC_theta.powspctrm(:, 1, :, :) = permute(theta_NC_cell, [3 1 2]);
 
-TFR_NC_alpha.label = {'alpha'}; 
+TFR_NC_alpha.label = {'alpha'};
 TFR_NC_alpha.powspctrm = zeros(size(alpha_NC_cell, 3), length(TFR_NC_alpha.label), ...
     size(alpha_NC_cell, 1), size(alpha_NC_cell, 2));
 TFR_NC_alpha.powspctrm(:, 1, :, :) = permute(alpha_NC_cell, [3 1 2]);
 
-TFR_NC_beta.label = {'beta'}; 
+TFR_NC_beta.label = {'beta'};
 TFR_NC_beta.powspctrm = zeros(size(beta_NC_cell, 3), length(TFR_NC_beta.label), ...
     size(beta_NC_cell, 1), size(beta_NC_cell, 2));
 TFR_NC_beta.powspctrm(:, 1, :, :) = permute(beta_NC_cell, [3 1 2]);
 
-TFR_NC_gamma.label = {'gamma'}; 
+TFR_NC_gamma.label = {'gamma'};
 TFR_NC_gamma.powspctrm = zeros(size(gamma_NC_cell, 3), length(TFR_NC_gamma.label), ...
     size(gamma_NC_cell, 1), size(gamma_NC_cell, 2));
 TFR_NC_gamma.powspctrm(:, 1, :, :) = permute(gamma_NC_cell, [3 1 2]);
@@ -265,35 +248,27 @@ stats_NCvsGo_TFR_alpha = ft_freqstatistics(cfg,TFR_NC_alpha,TFR_Go_alpha);
 stats_NCvsGo_TFR_beta = ft_freqstatistics(cfg,TFR_NC_beta,TFR_Go_beta);
 stats_NCvsGo_TFR_gamma = ft_freqstatistics(cfg,TFR_NC_gamma,TFR_Go_gamma);
 
-%% load monkey Eu's power
-
-load(fullfile('data', 'monkeys_data', 'sess_avg_power.mat'), ...
-    'power_Go_Eu_theta', 'power_NC_Eu_theta')
-
-max_Eu_power = max(abs([power_Go_Eu_theta(:,tspan>=-500 & tspan < tspan_max) ...
-    power_NC_theta(:,tspan>=-500 & tspan < tspan_max)]), [], 'all');
-
 %% create figure
 
-power_Go_theta = 100.*squeeze(mean(squeeze(TFR_Go_theta.powspctrm), 1, ...
-    "omitnan"))./max_Eu_power;
-power_NC_theta = 100.*squeeze(mean(squeeze(TFR_NC_theta.powspctrm), 1, ...
-    "omitnan"))./max_Eu_power;
+power_Go_theta = scaling.*squeeze(mean(squeeze(TFR_Go_theta.powspctrm), 1, ...
+    "omitnan"));
+power_NC_theta = scaling.*squeeze(mean(squeeze(TFR_NC_theta.powspctrm), 1, ...
+    "omitnan"));
 
-power_Go_alpha = 100.*squeeze(mean(squeeze(TFR_Go_alpha.powspctrm), 1, ...
-    "omitnan"))./max_Eu_power;
-power_NC_alpha = 100.*squeeze(mean(squeeze(TFR_NC_alpha.powspctrm), 1, ...
-    "omitnan"))./max_Eu_power;
+power_Go_alpha = scaling.*squeeze(mean(squeeze(TFR_Go_alpha.powspctrm), 1, ...
+    "omitnan"));
+power_NC_alpha = scaling.*squeeze(mean(squeeze(TFR_NC_alpha.powspctrm), 1, ...
+    "omitnan"));
 
-power_Go_beta = 100.*squeeze(mean(squeeze(TFR_Go_beta.powspctrm), 1, ...
-    "omitnan"))./max_Eu_power;
-power_NC_beta = 100.*squeeze(mean(squeeze(TFR_NC_beta.powspctrm), 1, ...
-    "omitnan"))./max_Eu_power;
+power_Go_beta = scaling.*squeeze(mean(squeeze(TFR_Go_beta.powspctrm), 1, ...
+    "omitnan"));
+power_NC_beta = scaling.*squeeze(mean(squeeze(TFR_NC_beta.powspctrm), 1, ...
+    "omitnan"));
 
-power_Go_gamma = 100.*squeeze(mean(squeeze(TFR_Go_gamma.powspctrm), 1, ...
-    "omitnan"))./max_Eu_power;
-power_NC_gamma = 100.*squeeze(mean(squeeze(TFR_NC_gamma.powspctrm), 1, ...
-    "omitnan"))./max_Eu_power;
+power_Go_gamma = scaling.*squeeze(mean(squeeze(TFR_Go_gamma.powspctrm), 1, ...
+    "omitnan"));
+power_NC_gamma = scaling.*squeeze(mean(squeeze(TFR_NC_gamma.powspctrm), 1, ...
+    "omitnan"));
 
 %% plot
 
@@ -449,7 +424,7 @@ ii = ii+1;
 nexttile(ii);
 % caxis_lim = [-1 1].*max(abs([power_Go_gamma(:,tspan>=-500 & tspan < tspan_max) ...
 %     power_NC_gamma(:,tspan>=-500 & tspan < tspan_max)]), [], 'all');
-% 
+%
 TFR_plot(tspan, ze, power_Go_gamma, caxis_lim, z_depth, tspan_max)
 hold on;
 xline(ERN, '--k', 'LineWidth',2)
@@ -470,7 +445,7 @@ ii = ii+1;
 ax4 = nexttile(ii);
 % caxis_lim = [-1 1].*max(abs(power_NC_gamma(:,tspan>=-500 & tspan < tspan_max) ...
 %     - power_Go_gamma(:,tspan>=-500 & tspan < tspan_max)), [], 'all');
-% 
+%
 TFR_stats_plot(tspan, ze, power_NC_gamma - power_Go_gamma, ...
     squeeze(stats_NCvsGo_TFR_gamma.mask), caxis_lim_diff, z_depth, tspan_max)
 hold on;

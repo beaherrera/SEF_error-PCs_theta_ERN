@@ -2,6 +2,7 @@
 
 Main analysis code for replicating biophysical simulations and figures in Herrera et al. (2023).
 
+Processed data is available through OFS at https://osf.io/xs9nq/.
 
 ## Description
 - [src_matlab](src_matlab): MatLab scripts for replicating analysis and figures.
@@ -11,6 +12,7 @@ Main analysis code for replicating biophysical simulations and figures in Herrer
 ## Main Dependencies
 - MATLAB (release 2021b, [The MathWorks](https://www.mathworks.com/?s_tid=gn_logo)).
 - NEURON simulator (release 8.0, http://www.neuron.yale.edu/neuron)
+- Python 3.8 (https://www.python.org/)
 - LFPy 2.2.2 (https://github.com/LFPy/LFPy)
 - [CSDplotter](src_synthetic_data/matlab_ana_scripts/functions/CSDplotter-0.1.1) (https://github.com/espenhgn/CSDplotter)
 - [FieldTrip](https://www.fieldtriptoolbox.org/) (release fieldtrip-20221126)

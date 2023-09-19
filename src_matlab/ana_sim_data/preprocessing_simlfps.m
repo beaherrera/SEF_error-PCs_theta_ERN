@@ -4,25 +4,17 @@ clear
 clc
 
 %% path to data
-
+% Simulated data for individual neurons was not included in the repository
+% because of its large size.
 save_folder = fullfile("data/sim_data/processed_lfps");
 if ~exist(save_folder, 'dir') % checks if the folder already exists
     mkdir(save_folder);  % creates a folder named 'file'
 end
 
-path_simData_Go_L3 = ['D:\Theta_paper_sim\' ...
-    'results_L3PCsPopMky\Go_trial_Aug30_mpi\' ...
-    'neurons#1000_clustered_synp\StimDend#4_StimApic#4'];
-path_simData_Go_L5 = ['D:\Theta_paper_sim\results_L5PCsPopMky\' ...
-    'Go_trial_Oct10_bsinc4_dend_a0_5_spks2_2_dm70_120_sg140_250_apic_a2_spks1_d100_sg200_mpi\' ...
-    'neurons#1000_clustered_synp\StimDend#4_StimOblq#0_StimApic#4'];
-
-path_simData_NC_L3 = ['D:\Theta_paper_sim\results_L3PCsPopMky\' ...
-    'NC_trial_Aug30_mpi\neurons#1000_clustered_synp\' ...
-    'StimDend#4_StimApic#4'];
-path_simData_NC_L5 = ['D:\Theta_paper_sim\results_L5PCsPopMky\' ...
-    'NC_trial_Oct10_bsinc4_dend_a0_5_spks2_5_dm70_120_sg140_250_apic_a2_5_spks1_d100_280_sg200_mpi\' ...
-    'neurons#1000_clustered_synp\StimDend#4_StimOblq#0_StimApic#4'];
+path_simData_Go_L3 = fullfile('data', 'sim_data', 'Gotrials_625L3PCs');
+path_simData_Go_L5 = fullfile('data', 'sim_data', 'Gotrials_1000L5PCs');
+path_simData_NC_L3 = fullfile('data', 'sim_data', 'NCtrials_625L3PCs');
+path_simData_NC_L5 = fullfile('data', 'sim_data', 'NCtrials_1000L5PCs');
 
 file_name_L3 = 'Dend_r3.5_Apic_r2';
 file_name_L5 = 'Dend_r2_Apic_r0.5';
@@ -67,7 +59,7 @@ Hd_gamma = FilterW1_W2Hz(30,80);
 N = 4; % filter order
 fsample = Fs_lfp; % lfp sampling rate
 type = 'but'; % Butterworth filter
-dir='twopass'; % two-pass filter 
+dir='twopass'; % two-pass filter
 instabilityfix = 'reduce';
 filterFreq = 100; % cutoff frequency
 
@@ -87,58 +79,58 @@ LFP_NC_L5_trails = cell(num_ele, num_trials); % LFP NC trials
 
 % loop for the trials
 for r = trials_number
-
+    
     loadPath2 = fullfile(path_simData_Go_L3, ['SimData_r' num2str(r) '_PS'...
         num2str(num_neuronsL3) '_' file_name_L3 '.mat']);
     load(loadPath2, 'LFP', 'ze') % loading extracellular potentials
     Ve_Go_L3 = LFP;
     ze_Go_L3 = ze;
     clearvars LFP ze
-
+    
     loadPath2 = fullfile(path_simData_Go_L5, ['SimData_r' num2str(r) '_PS'...
         num2str(num_neuronsL5) '_' file_name_L5 '.mat']);
     load(loadPath2, 'LFP', 'ze') % loading extracellular potentials
     Ve_Go_L5 = LFP;
     ze_Go_L5 = ze;
     clearvars LFP ze
-
+    
     loadPath2 = fullfile(path_simData_NC_L3, ['SimData_r' num2str(r) '_PS'...
         num2str(num_neuronsL3) '_' file_name_L3 '.mat']);
     load(loadPath2, 'LFP', 'ze') % loading extracellular potentials
     Ve_NC_L3 = LFP;
     ze_NC_L3 = ze;
     clearvars LFP ze
-
+    
     loadPath2 = fullfile(path_simData_NC_L5, ['SimData_r' num2str(r) '_PS'...
         num2str(num_neuronsL5) '_' file_name_L5 '.mat']);
     load(loadPath2, 'LFP', 'ze') % loading extracellular potentials
     Ve_NC_L5 = LFP;
     ze_NC_L5 = ze;
     clearvars LFP ze
-
+    
     if ~all((ze_Go_L3 == ze_Go_L5) & (ze_NC_L3 == ze_NC_L5))
         error("Channels coordinates are different in L3 and L5 sim.")
     end
-
+    
     % -- remove warm-up period
     Ve_Go_L3 = Ve_Go_L3(:, ts_all>=warmup_period);
     Ve_Go_L5 = Ve_Go_L5(:, ts_all>=warmup_period);
     Ve_NC_L3 = Ve_NC_L3(:, ts_all>=warmup_period);
     Ve_NC_L5 = Ve_NC_L5(:, ts_all>=warmup_period);
-
+    
     % -- get total LFP
     Ve_Go = scaling_L3.*Ve_Go_L3 + scaling_L5.*Ve_Go_L5;
     Ve_NC = scaling_L3.*Ve_NC_L3 + scaling_L5.*Ve_NC_L5;
-
+    
     % -- downsampling the LFPs to Fs_lfp
     [VeD_Go_L3, ~] = process_resample('Compute', double(Ve_Go_L3), ts, Fs_lfp);
     [VeD_NC_L3, ~] = process_resample('Compute', double(Ve_NC_L3), ts, Fs_lfp);
     [VeD_Go_L5, ~] = process_resample('Compute', double(Ve_Go_L5), ts, Fs_lfp);
     [VeD_NC_L5, ~] = process_resample('Compute', double(Ve_NC_L5), ts, Fs_lfp);
-
+    
     [VeD_Go, ~] = process_resample('Compute', double(Ve_Go), ts, Fs_lfp);
     [VeD_NC, ~] = process_resample('Compute', double(Ve_NC), ts, Fs_lfp);
-
+    
     % -- store LFPs in a cell array
     LFP_Go_trails(:, (trials_number==r)) = num2cell(VeD_Go', 1)';
     LFP_NC_trails(:, (trials_number==r)) = num2cell(VeD_NC', 1)';
@@ -146,7 +138,7 @@ for r = trials_number
     LFP_NC_L3_trails(:, (trials_number==r)) = num2cell(VeD_NC_L3', 1)';
     LFP_Go_L5_trails(:, (trials_number==r)) = num2cell(VeD_Go_L5', 1)';
     LFP_NC_L5_trails(:, (trials_number==r)) = num2cell(VeD_NC_L5', 1)';
-
+    
 end
 
 %% concatenate data as a continuous recording for filtering

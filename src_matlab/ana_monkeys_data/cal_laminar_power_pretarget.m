@@ -5,9 +5,8 @@ clc
 
 %% path 2 filtered lfps
 
-path2data = 'F:\theta-paper-data\monkeys_data\laminar_data';
-% path2data = fullfile('data', 'monkeys_data','laminar_data'); % IMPORTANT: you
-% have to download and save the laminar data in this folder 
+path2data = fullfile('data', 'monkeys_data', 'laminar_data');
+% IMPORTANT: you have to download and save the laminar data in this folder
 
 %% perpendicular sessions
 
@@ -29,7 +28,7 @@ z_depth  = [1125:-150:0, 0, -75:-150:-1125]; % mm depth
 thetaBand = [5 8]; % Hz
 alphaBand = [9 14]; % Hz
 betaBand = [15 29]; % Hz
-gammaBand = [30 80]; % Hz 
+gammaBand = [30 80]; % Hz
 
 %% create saving directory
 
@@ -45,18 +44,18 @@ target_gamma_trials = cell(length(SessNumb), 2);
 %% loop for the sessions
 
 for n = 1:length(SessNumb)
-
+    
     sprintf('session %d', SessNumb(n))
-
+    
     %% load filtered data
     load(fullfile(path2data,['Session_' num2str(SessNumb(n)) '_Target_filt.mat']),...
         'ft_lfpGo_theta_Target', 'ft_lfpNC_theta_Target', ...
         "ft_lfpNC_alpha_Target", "ft_lfpNC_beta_Target", ...
         "ft_lfpNC_gamma_Target", "ft_lfpGo_gamma_Target", ...
         "ft_lfpGo_beta_Target", "ft_lfpGo_alpha_Target")
-
+    
     %% calculate the Hilbert Transforms
-
+    
     lfpGo_theta_Hilbert = cellfun(@(x) hilbert(x')', ft_lfpGo_theta_Target.trial, ...
         'UniformOutput',false);
     lfpGo_alpha_Hilbert = cellfun(@(x) hilbert(x')', ft_lfpGo_alpha_Target.trial, ...
@@ -65,7 +64,7 @@ for n = 1:length(SessNumb)
         'UniformOutput',false);
     lfpGo_gamma_Hilbert = cellfun(@(x) hilbert(x')', ft_lfpGo_gamma_Target.trial, ...
         'UniformOutput',false);
-
+    
     lfpNC_theta_Hilbert = cellfun(@(x) hilbert(x')', ft_lfpNC_theta_Target.trial, ...
         'UniformOutput',false);
     lfpNC_alpha_Hilbert = cellfun(@(x) hilbert(x')', ft_lfpNC_alpha_Target.trial, ...
@@ -74,9 +73,9 @@ for n = 1:length(SessNumb)
         'UniformOutput',false);
     lfpNC_gamma_Hilbert = cellfun(@(x) hilbert(x')', ft_lfpNC_gamma_Target.trial, ...
         'UniformOutput',false);
-
+    
     %% calculate amplitude and phase envelope
-
+    
     lfpGo_theta_amp = cellfun(@abs, lfpGo_theta_Hilbert, ...
         'UniformOutput',false);
     lfpNC_theta_amp = cellfun(@abs, lfpNC_theta_Hilbert, ...
@@ -98,7 +97,7 @@ for n = 1:length(SessNumb)
         'UniformOutput',false);
     
     %% store session values
-
+    
     target_theta_trials(n, :) = {lock2event(lfpGo_theta_amp, ft_lfpGo_theta_Target.time),...
         lock2event(lfpNC_theta_amp, ft_lfpNC_theta_Target.time)};
     target_alpha_trials(n, :) = {lock2event(lfpGo_alpha_amp, ft_lfpGo_alpha_Target.time),...
@@ -107,7 +106,7 @@ for n = 1:length(SessNumb)
         lock2event(lfpNC_beta_amp, ft_lfpNC_beta_Target.time)};
     target_gamma_trials(n, :) = {lock2event(lfpGo_gamma_amp, ft_lfpGo_gamma_Target.time),...
         lock2event(lfpNC_gamma_amp, ft_lfpNC_gamma_Target.time)};
-
+    
 end
 
 %% store data

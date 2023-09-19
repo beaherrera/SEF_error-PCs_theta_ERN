@@ -32,6 +32,7 @@ avg_LFP_sess_NC = cat(3, avg_LFP_sess_NC{:});
 grand_avg_LFP_NC_Eu = mean(avg_LFP_sess_NC(:,:,ismember(SessNumb, Sess_EuP1)), ...
     3, 'omitnan');
 
+%% load electrodes' positions
 load("data\head_model_NMTv2\surfaces\electrodes.mat")
 
 %% load lead field matrices
@@ -104,10 +105,10 @@ ERN_exp_CSD = zeros(size(diam_list));
 Pe_exp_CSD = zeros(size(diam_list));
 
 for diam = diam_list
-
+    
     % -- calculate cubic splines
     Fcs = F_cubic_spline(el_pos,diam,cond,cond_top);
-
+    
     % -- get CSD
     [zs_Go,CSD_cs_Go] = make_cubic_splines(el_pos, ...
         grand_avg_LFP_Go_Eu, Fcs);
@@ -117,7 +118,7 @@ for diam = diam_list
     end
     grand_avg_iCSD_Go = CSD_cs_Go; % [nA/mm3] current source density
     zs_Go = zs_Go*1e3; % [mm]
-
+    
     [zs_NC,CSD_cs_NC] = make_cubic_splines(el_pos, ...
         grand_avg_LFP_NC_Eu, Fcs);
     if ~isempty(gauss_sigma) && gauss_sigma~=0 %filter iCSD
@@ -126,73 +127,73 @@ for diam = diam_list
     end
     grand_avg_iCSD_NC = CSD_cs_NC; % [nA/mm3] current source density
     zs_NC = zs_NC*1e3; % [mm]
-
+    
     %% get dipoles
     rc = diam.*1e3/2; % cortical column diameter in mm
-
+    
     d_expCSD_Go = cal_dip_CSD(zs_NC', grand_avg_iCSD_Go, rc); % nA*m
     d_expCSD_NC = cal_dip_CSD(zs_NC', grand_avg_iCSD_NC, rc); % nA*m
-
+    
     %% get monopole
-
+    
     mon_expCSD_Go = sum(mean(abs(diff(zs_Go)))*grand_avg_iCSD_Go*(pi*(rc^2)), 1); % nA
     mon_expCSD_NC = sum(mean(abs(diff(zs_Go)))*grand_avg_iCSD_NC*(pi*(rc^2)), 1); % nA
-
+    
     %% get quadrupoles
-
+    
     quad_expCSD_Go = cal_quad_CSD(zs_NC', grand_avg_iCSD_Go, rc).*1e-6; % nA*m2
     quad_expCSD_NC = cal_quad_CSD(zs_NC', grand_avg_iCSD_NC, rc).*1e-6; % nA*m2
-
+    
     %% calculate EEG
     %% dipolar component
-
+    
     EEG_dip_exp_Go = (Kedip_right*(orientation(2,:)') + ...
         Kedip_left*(orientation(1,:)'))*(d_expCSD_Go.*1e-3); % uV
     
     EEG_dip_exp_NC = (Kedip_right*(orientation(2,:)') + ...
         Kedip_left*(orientation(1,:)'))*(d_expCSD_NC.*1e-3); % uV
-
+    
     %% quadripolar component
-
+    
     Q = blkdiag(zeros(3,1), zeros(3,1), [0; 0; 1]);
-
+    
     Kequad = (Kequad_right*Q + Kequad_left*Q);
     Kequad = Kequad(:,end);
-
+    
     EEG_quad_exp_Go = Kequad*(quad_expCSD_Go.*1e-3); % uV
     EEG_quad_sim_Go = Kequad*(quad_simCSD_Go.*1e-3); % uV
-
+    
     EEG_quad_exp_NC = Kequad*(quad_expCSD_NC.*1e-3); % uV
     EEG_quad_sim_NC = Kequad*(quad_simCSD_NC.*1e-3); % uV
-
+    
     %% monopolar component
-
+    
     EEG_mon_exp_Go = (Kemon_left + Kemon_right)*(mon_expCSD_Go.*1e-3); % uV
     
     EEG_mon_exp_NC = (Kemon_left + Kemon_right)*(mon_expCSD_NC.*1e-3); % uV
     
     %% sum
-
+    
     EEG_exp_Go = EEG_mon_exp_Go + EEG_quad_exp_Go + EEG_dip_exp_Go;
     EEG_exp_NC = EEG_mon_exp_NC + EEG_quad_exp_NC + EEG_dip_exp_NC;
-
+    
     EEG_exp_Go =  EEG_exp_Go - mean(EEG_exp_Go(1,tspan>=-150 & tspan<=-100));
     EEG_exp_NC =  EEG_exp_NC - mean(EEG_exp_NC(1,tspan>=-150 & tspan<=-100));
-
+    
     %% find ERN and Pe peak
-
+    
     ERN_exp_CSD(ismember(diam_list, diam)) = EEG_exp_NC(1, tspan==ERN) -...
         EEG_exp_Go(1, tspan==ERN);
     Pe_exp_CSD(ismember(diam_list, diam)) = EEG_exp_NC(1, tspan==Pe) -...
         EEG_exp_Go(1, tspan==Pe);
-
+    
 end
 
 %% linear regression
 [f_ERN, gof_ERN] = fit(diam_list'.*1e3, ERN_exp_CSD','poly1');
 [f_Pe, gof_Pe] = fit(diam_list'.*1e3, Pe_exp_CSD','poly1');
 
-%% 
+%%
 
 font = 10;
 width = 1.5;
@@ -205,7 +206,7 @@ tiledlayout(1, 2,'TileSpacing','Compact','Padding','Compact');
 
 nexttile
 h1 = plot(f_ERN, '-', diam_list.*1e3, ERN_exp_CSD,'r.');
-h1(1).MarkerSize = 10;  
+h1(1).MarkerSize = 10;
 h1(2).Color = [0 204 0]./255;
 xlabel('Column diameter (mm)')
 ylabel({'Eu CSD EEG', 'mag at ERN (\muV)'})
@@ -217,7 +218,7 @@ set(gca, 'box', 'off','linewidth',width,'fontsize',font,'fontweight','bold')
 
 nexttile
 h2 = plot(f_Pe, '-', diam_list.*1e3, Pe_exp_CSD,'r.');
-h2(1).MarkerSize = 10;  
+h2(1).MarkerSize = 10;
 h2(2).Color = [0 204 0]./255;
 xlabel('Column diameter (mm)')
 ylabel({'Eu CSD EEG', 'mag at Pe (\muV)'})
