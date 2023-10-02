@@ -12,8 +12,8 @@ Available through the Open Science Framework (OSF): https://osf.io/xs9nq/; locat
     - Session_*_Spks_Saccade.mat: spiking activity of all recorded single units relative to saccade onset for Go (correct) and NC (error) trials.
     - Session_*_Spks_Target.mat: spiking activity of all recorded single units relative to target onset for Go (correct) and NC (error) trials.
     - Session_*_Target_filt.mat: filtered LFPs relative to target onset for Go (correct) and NC (error) trials.
-- laminar_power_saccade & laminar_power_target: estimated laminar time-varying power maps relative saccade and target onset, respectively.
-    - sessions_amp_phase_*(theta, alpha, beta, gamma).mat: cell arrays dimensions: (electrodes x time x trials).
+- laminar_power_saccade & laminar_power_target: laminar time-varying power maps for each frequency band (theta, alpha, beta, gamma) relative saccade and target onset, respectively.
+    - sessions_*_power.mat: cell arrays dimensions: (electrodes x time x trials).
 
 ### .mat files
 - avg_lfp_csd_sess.mat: averaged local field potential and current source density across trials for each session and trial type. Sessions 14-19: monkey Eu; Sessions 20-29: monkey X. tspan = -500:1000 ms relative to saccade onset.

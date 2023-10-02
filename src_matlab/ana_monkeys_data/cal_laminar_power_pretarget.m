@@ -111,7 +111,7 @@ end
 
 %% store data
 
-save(fullfile(savePath, 'sessions_amp_phase_theta.mat'), 'target_theta_trials')
-save(fullfile(savePath, 'sessions_amp_phase_alpha.mat'), 'target_alpha_trials')
-save(fullfile(savePath, 'sessions_amp_phase_beta.mat'), 'target_beta_trials')
-save(fullfile(savePath, 'sessions_amp_phase_gamma.mat'), 'target_gamma_trials')
+save(fullfile(savePath, 'sessions_theta_power.mat'), 'target_theta_trials')
+save(fullfile(savePath, 'sessions_alpha_power.mat'), 'target_alpha_trials')
+save(fullfile(savePath, 'sessions_beta_power.mat'), 'target_beta_trials')
+save(fullfile(savePath, 'sessions_gamma_power.mat'), 'target_gamma_trials')

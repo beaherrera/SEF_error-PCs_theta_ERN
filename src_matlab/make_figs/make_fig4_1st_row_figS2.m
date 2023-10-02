@@ -40,23 +40,23 @@ gammaBand = [30 80]; % Hz
 
 % target
 load(fullfile(path2tfdata_target, ...
-    'sessions_amp_phase_theta.mat'), 'target_theta_trials')
+    'sessions_theta_power.mat'), 'target_theta_trials')
 load(fullfile(path2tfdata_target, ...
-    'sessions_amp_phase_alpha.mat'), 'target_alpha_trials')
+    'sessions_alpha_power.mat'), 'target_alpha_trials')
 load(fullfile(path2tfdata_target, ...
-    'sessions_amp_phase_beta.mat'), 'target_beta_trials')
+    'sessions_beta_power.mat'), 'target_beta_trials')
 load(fullfile(path2tfdata_target, ...
-    'sessions_amp_phase_gamma.mat'), 'target_gamma_trials')
+    'sessions_gamma_power.mat'), 'target_gamma_trials')
 
 % saccade
 load(fullfile(path2tfdata_saccade, ...
-    'sessions_amp_phase_theta.mat'), 'theta_trials')
+    'sessions_theta_power.mat'), 'theta_trials')
 load(fullfile(path2tfdata_saccade, ...
-    'sessions_amp_phase_alpha.mat'), 'alpha_trials')
+    'sessions_alpha_power.mat'), 'alpha_trials')
 load(fullfile(path2tfdata_saccade, ...
-    'sessions_amp_phase_beta.mat'), 'beta_trials')
+    'sessions_beta_power.mat'), 'beta_trials')
 load(fullfile(path2tfdata_saccade, ...
-    'sessions_amp_phase_gamma.mat'), 'gamma_trials')
+    'sessions_gamma_power.mat'), 'gamma_trials')
 
 %% get the power and baseline correct it to 200ms pre target power
 

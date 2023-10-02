@@ -167,22 +167,22 @@ for n = 1:length(SessNumb)
     sgtitle('Go Trials')
     
     subplot(2,2,1)
-    plot_amp_phase_depth(theta_Go, tspan, ze, ...
+    plot_power_depth(theta_Go, tspan, ze, ...
         z_depth, [min_amp_theta max_amp_theta])
     title('\theta')
     
     subplot(2,2,2)
-    plot_amp_phase_depth(alpha_Go, tspan, ze, ...
+    plot_power_depth(alpha_Go, tspan, ze, ...
         z_depth, [min_amp_alpha max_amp_alpha])
     title('\alpha')
     
     subplot(2,2,3)
-    plot_amp_phase_depth(beta_Go, tspan, ze, ...
+    plot_power_depth(beta_Go, tspan, ze, ...
         z_depth, [min_amp_beta max_amp_beta])
     title('\beta')
     
     subplot(2,2,4)
-    plot_amp_phase_depth(gamma_Go, tspan, ze, ...
+    plot_power_depth(gamma_Go, tspan, ze, ...
         z_depth, [min_amp_gamma max_amp_gamma])
     title('\gamma')
     
@@ -208,22 +208,22 @@ for n = 1:length(SessNumb)
     tspan = -500:1000;
     
     subplot(2,2,1)
-    plot_amp_phase_depth(theta_NC, tspan, ze, ...
+    plot_power_depth(theta_NC, tspan, ze, ...
         z_depth, [min_amp_theta max_amp_theta])
     title('\theta')
     
     subplot(2,2,2)
-    plot_amp_phase_depth(alpha_NC, tspan, ze, ...
+    plot_power_depth(alpha_NC, tspan, ze, ...
         z_depth, [min_amp_alpha max_amp_alpha])
     title('\alpha')
     
     subplot(2,2,3)
-    plot_amp_phase_depth(beta_NC, tspan, ze, ...
+    plot_power_depth(beta_NC, tspan, ze, ...
         z_depth, [min_amp_beta max_amp_beta])
     title('\beta')
     
     subplot(2,2,4)
-    plot_amp_phase_depth(gamma_NC, tspan, ze, ...
+    plot_power_depth(gamma_NC, tspan, ze, ...
         z_depth, [min_amp_gamma max_amp_gamma])
     title('\gamma')
     
@@ -243,18 +243,18 @@ end
 
 %% store data
 
-save(fullfile(savePath, 'sessions_amp_phase_theta.mat'), 'theta_trials')
-save(fullfile(savePath, 'sessions_amp_phase_alpha.mat'), 'alpha_trials')
-save(fullfile(savePath, 'sessions_amp_phase_beta.mat'), 'beta_trials')
-save(fullfile(savePath, 'sessions_amp_phase_gamma.mat'), 'gamma_trials')
+save(fullfile(savePath, 'sessions_theta.mat'), 'theta_trials')
+save(fullfile(savePath, 'sessions_alpha.mat'), 'alpha_trials')
+save(fullfile(savePath, 'sessions_beta.mat'), 'beta_trials')
+save(fullfile(savePath, 'sessions_gamma.mat'), 'gamma_trials')
 
 %%
 
 close all
 
 %% ================== sub-functions ==================
-function plot_amp_phase_depth(amp, tspan, ze, z_depth, caxis_lim)
-%PLOT_AMP_PHASE_DEPTH Plot Amp & Phi across depth and time
+function plot_power_depth(amp, tspan, ze, z_depth, caxis_lim)
+%PLOT_POWER_DEPTH Plot Amp & Phi across depth and time
 %   Plots the laminar maps of the amplitude envelope with the phase
 %   superimposed.
 % Inputs:
