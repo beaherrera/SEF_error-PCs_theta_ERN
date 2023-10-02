@@ -14,4 +14,11 @@ Processed LFPs are available through the Open Science Framework (OSF): https://o
 - *_spk_ft_struct_sim.mat: fieldtrip data structure containing the spiking activity of the simulated neurons during the whole simulation.
 - *_spk_rate_sim.mat: spike rate of the simulated neurons.
 - *_spk_tone_ft_struct_sim.mat: fieldtrip data structure containing the spiking activity of the simulated neurons until tone onset.
-- tone_times.mat: time onset of the feedback tones considered for each simulated error (NC - noncanceled) and correct (Go) trial. Tones times are relative to the target onset. 
+- tone_times.mat: time onset of the feedback tones considered for each simulated error (NC - noncanceled) and correct (Go) trial. Tones times are relative to the target onset.
+
+
+### OSF folder structure
+- Fig6_data: data used to generate Fig. 6.
+- *trials_1000L5PCs: data obtained from simulating 1000 error L5PCs (used to generate Figs. 4, 5 and 7C).
+- *trials_625L3PCs: data obtained from simulating 625 error L3PCs (used to generate Figs. 4, 5 and 7C).
+- processed_lfps: processed LFPs used for generating Figs. 4, 5 and 7C. 
