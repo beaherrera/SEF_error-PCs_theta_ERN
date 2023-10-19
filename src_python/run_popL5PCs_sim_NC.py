@@ -46,11 +46,10 @@ RANK = COMM.Get_rank()
 
 
 def main():
-
     # Generate data for Fig 3: `num_trials = 116` and `POPULATION_SIZE = 5`
     # Generate data for Figs 4, 6-8: `num_trials = 20` and `POPULATION_SIZE = 1000`
 
-    dt = 2 ** -4  # ms | simulation time step
+    dt = 2**-4  # ms | simulation time step
     SEED = 12  # seed for random number generator
     num_trials = 116  # number of trials to be simulated
     trials_indices = np.arange(1, num_trials + 1)
@@ -64,7 +63,6 @@ def main():
     # where results will be saved
 
     if "win32" in sys.platform:  # if running on windows local machine
-
         trials_ID = trials_indices
         job_0 = True
 
@@ -133,7 +131,6 @@ def main():
 
     # load experimental distribution of target times
     if RANK == 0:  # only load once
-
         event_times = io.loadmat(join("Data", "event_times_rel2target.mat"))
         xk_target = event_times["edges_target_time"][:, 1:] - 0.5
         xk_saccade = event_times["edges_saccade_time"][:, 1:] - 0.5
@@ -196,33 +193,46 @@ def main():
         # -- Gaussian Shape Parameters
         "a_dend": [0, 5],  # basal synapses | original value -5
         # apical
-        "a_apic": {"a_apic": 2, "a_h1": [2], "a_h2": [2], "a_h3": [2]},
+        "a_apic": {
+            "a_apic": [2, 5],
+            "a_h1": [2, 5],
+            "a_h2": [2, 5],
+            "a_h3": [2, 5],
+        },
         #  synapses
         # "a_oblq": 0,  # oblique synapses
         # -- center of Gaussian defined as warup + target_time + saccade_time
         #  + delay, ms
-        "mu_dend": [warmup_period - 70, warmup_period + 120,],  # ms, basal synapses
+        "mu_dend": [
+            warmup_period - 70,
+            warmup_period + 120,
+        ],  # ms, basal synapses
         "mu_apic": {
-            "mu_apic": warmup_period + 100,
-            "mu_h1": [warmup_period + 100],
-            "mu_h2": [warmup_period + 100],
-            "mu_h3": [warmup_period + 100],
+            "mu_apic": [warmup_period + 100, warmup_period + 280],
+            "mu_h1": [warmup_period + 100, warmup_period + 280],
+            "mu_h2": [warmup_period + 100, warmup_period + 280],
+            "mu_h3": [warmup_period + 100, warmup_period + 280],
         },  # ms, apical synapses
         # "mu_oblq":  None,  # warmup_period + dalay,  # ms, oblique synapses
         # -- Standard deviation of the Gaussian
         "sigma_dend": [140, 250],  # ms, width of the Gaussian, Basal Inputs
         # "sigma_oblq": None,  # ms, width of the Gaussian, Oblique Inputs
         "sigma_apic": {
-            "sigma_apic": 200,
-            "sigma_h1": [200],
-            "sigma_h2": [200],
-            "sigma_h3": [200],
+            "sigma_apic": [200, 200],
+            "sigma_h1": [200, 200],
+            "sigma_h2": [200, 200],
+            "sigma_h3": [200, 200],
         },  # ms, width of the Gaussian, Apical Inputs
         # -- Number of pre-synaptic spikes
-        "n_dend": [2, 2],  # basal synapses
+        "n_dend": [2, 5],  # basal synapses
         # "n_oblq": None,  # oblique synapses
         # apical
-        "n_apic": {"n_apic": 1, "n_h1": [1], "n_h2": [1], "n_h3": [1]},
+        "n_apic": {
+            "n_apic": [1, 1],
+            "n_h1": [1, 1],
+            "n_h2": [1, 1],
+            "n_h3": [1, 1],
+        },
         #
         # Parameters to increase background inputs after target
         "spTimesFun": get_activation_times_from_distribution,
@@ -339,7 +349,6 @@ def main():
 
     # ---- run
     for runNumb in trials_ID:
-
         # delete old sections from NEURON namespace
         LFPy.cell.neuron.h("forall delete_section()")
 
