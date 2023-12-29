@@ -28,7 +28,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
 
 ## Citation
-Beatriz Herrera, Amirsaman Sajad, Steven P Errington, Jeffrey D Schall, Jorge J Riera, Cortical origin of theta error signals, *Cerebral Cortex*, 2023;, bhad367, https://doi.org/10.1093/cercor/bhad367
+Herrera, B., Sajad, A., Errington, S.P., Schall, J.D. and Riera, J.J., 2023. Cortical origin of theta error signals. *Cerebral Cortex*, 33(23), pp.11300-11319. **DOI**: https://doi.org/10.1093/cercor/bhad367
 
 ## Acknowledgments
 This work was supported by NIMH and NEI [grant numbers: R01MH55806, P30EY008126, and R01EY019882], FIU SEED Grant Wallace Coulter Foundation, and Canadian Institutes of Health Research Postdoctoral Fellowship. B. H. was supported by a fellowship from NIMH [F31 MH129101].
