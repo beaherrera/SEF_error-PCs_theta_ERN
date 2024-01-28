@@ -277,8 +277,6 @@ p_thr_plot = 0.05;
 c_scale = 200;
 
 tspan_max = 500;
-rows = 4;
-cols = 4;
 
 ERN = median([184 224]);
 Pe = round(median([302 327]));

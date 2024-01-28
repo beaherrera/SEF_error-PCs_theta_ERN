@@ -28,11 +28,11 @@ Available through the Open Science Framework (OSF): https://osf.io/xs9nq/; locat
     - L*_sem_fr_*: spike rate standard error of the mean across recorded neurons per layer and trial type.
     - mean_fr_*_*: mean spike rate across trials for each recorded neuron per layer and trial type.
     - ts_sess: time stamps relative to the trial events (saccade and target onset).
-- grand_avg_lfp_csd.mat: grand average laminar local field potentials and current source density maps across all sessions per trial type (NC - error noncanceled trials and Go - correct go trails). 
+- grand_avg_lfp_csd.mat: grand average laminar local field potentials and current source density maps across all sessions per trial type (NC - error noncanceled trials and Go - correct go trials). 
     - grand_avg_LFP_*: grand average local field potentials. Dimensions: (electrode x time).
     - grand_iCSD_*: grand average current source density maps. Dimensions: (cortical depth x time).
     - tspan: time stamps relative to saccade onset.
     - zs_*: cortical depth in mm where the CSDs were estimated.
 - idx_L*neurons_sac.mat: indices of selected L3 and L5 pyramidal error neurons for constraining the biophysical models.
 - neuronsInfoAmirSteven.mat: information of the recorded neurons (e.g., name, depth, unit type (BS - broad spiking - or NS - narrow spiking unit), etc.).
-- sess_avg_power.mat: laminar time-varying power for each frequency band (theta, alpha, beta and gamma) of the local field potentials for each monkey (Eu and X) and trial type (NC - error noncanceled trials and Go - correct go trails).
+- sess_avg_power.mat: laminar time-varying power for each frequency band (theta, alpha, beta and gamma) of the local field potentials for each monkey (Eu and X) and trial type (NC - error noncanceled trials and Go - correct go trials).

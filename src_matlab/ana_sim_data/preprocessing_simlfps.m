@@ -68,14 +68,14 @@ filterFunBut = @(x) ft_preproc_lowpassfilter(x, fsample, filterFreq, N,...
 
 %% calculate the avg LFP across trials relative to the target and saccade onset
 
-LFP_Go_trails = cell(num_ele, num_trials); % LFP Go trials
-LFP_NC_trails = cell(num_ele, num_trials); % LFP NC trials
+LFP_Go_trials = cell(num_ele, num_trials); % LFP Go trials
+LFP_NC_trials = cell(num_ele, num_trials); % LFP NC trials
 
-LFP_Go_L3_trails = cell(num_ele, num_trials); % LFP Go trials
-LFP_NC_L3_trails = cell(num_ele, num_trials); % LFP NC trials
+LFP_Go_L3_trials = cell(num_ele, num_trials); % LFP Go trials
+LFP_NC_L3_trials = cell(num_ele, num_trials); % LFP NC trials
 
-LFP_Go_L5_trails = cell(num_ele, num_trials); % LFP Go trials
-LFP_NC_L5_trails = cell(num_ele, num_trials); % LFP NC trials
+LFP_Go_L5_trials = cell(num_ele, num_trials); % LFP Go trials
+LFP_NC_L5_trials = cell(num_ele, num_trials); % LFP NC trials
 
 % loop for the trials
 for r = trials_number
@@ -132,12 +132,12 @@ for r = trials_number
     [VeD_NC, ~] = process_resample('Compute', double(Ve_NC), ts, Fs_lfp);
     
     % -- store LFPs in a cell array
-    LFP_Go_trails(:, (trials_number==r)) = num2cell(VeD_Go', 1)';
-    LFP_NC_trails(:, (trials_number==r)) = num2cell(VeD_NC', 1)';
-    LFP_Go_L3_trails(:, (trials_number==r)) = num2cell(VeD_Go_L3', 1)';
-    LFP_NC_L3_trails(:, (trials_number==r)) = num2cell(VeD_NC_L3', 1)';
-    LFP_Go_L5_trails(:, (trials_number==r)) = num2cell(VeD_Go_L5', 1)';
-    LFP_NC_L5_trails(:, (trials_number==r)) = num2cell(VeD_NC_L5', 1)';
+    LFP_Go_trials(:, (trials_number==r)) = num2cell(VeD_Go', 1)';
+    LFP_NC_trials(:, (trials_number==r)) = num2cell(VeD_NC', 1)';
+    LFP_Go_L3_trials(:, (trials_number==r)) = num2cell(VeD_Go_L3', 1)';
+    LFP_NC_L3_trials(:, (trials_number==r)) = num2cell(VeD_NC_L3', 1)';
+    LFP_Go_L5_trials(:, (trials_number==r)) = num2cell(VeD_Go_L5', 1)';
+    LFP_NC_L5_trials(:, (trials_number==r)) = num2cell(VeD_NC_L5', 1)';
     
 end
 
@@ -147,14 +147,14 @@ cont_lfps = @(lfp_cell) arrayfun(@(elei) ...
     reshape(cell2mat(lfp_cell(elei, :)),[],1), ...
     1:size(lfp_cell, 1), 'UniformOutput', false);
 
-LFP_Go_cont = cont_lfps(LFP_Go_trails);
-LFP_NC_cont = cont_lfps(LFP_NC_trails);
+LFP_Go_cont = cont_lfps(LFP_Go_trials);
+LFP_NC_cont = cont_lfps(LFP_NC_trials);
 
-LFP_Go_L3_cont = cont_lfps(LFP_Go_L3_trails);
-LFP_NC_L3_cont = cont_lfps(LFP_NC_L3_trails);
+LFP_Go_L3_cont = cont_lfps(LFP_Go_L3_trials);
+LFP_NC_L3_cont = cont_lfps(LFP_NC_L3_trials);
 
-LFP_Go_L5_cont = cont_lfps(LFP_Go_L5_trails);
-LFP_NC_L5_cont = cont_lfps(LFP_NC_L5_trails);
+LFP_Go_L5_cont = cont_lfps(LFP_Go_L5_trials);
+LFP_NC_L5_cont = cont_lfps(LFP_NC_L5_trials);
 
 %% filter at freq bands of interest
 % theta
@@ -212,8 +212,8 @@ LFP_NC_L5_cont_gamma = gamma_filt(LFP_NC_L5_cont);
 %% reshpae lfps into its original cell array shape
 
 reshape_lfps = @(lfp_cell) arrayfun(@(elei) ...
-    num2cell(reshape(lfp_cell{1, elei}, size(LFP_Go_trails{1,1}, 1), ...
-    size(LFP_Go_trails, 2)), 1), ...
+    num2cell(reshape(lfp_cell{1, elei}, size(LFP_Go_trials{1,1}, 1), ...
+    size(LFP_Go_trials, 2)), 1), ...
     (1:size(lfp_cell, 2))', 'UniformOutput', false);
 
 % -- theta
@@ -283,14 +283,14 @@ LFP_NC_L5_gamma = cat(1, LFP_NC_L5_gamma{:});
 %% convert sim trials to ft lfp structure
 
 % -- raw sim LFPs
-ft_lfpGo = convSimLFPs2ftRawDataStr(LFP_Go_trails, Fs_lfp, Fs);
-ft_lfpNC = convSimLFPs2ftRawDataStr(LFP_NC_trails, Fs_lfp, Fs);
+ft_lfpGo = convSimLFPs2ftRawDataStr(LFP_Go_trials, Fs_lfp, Fs);
+ft_lfpNC = convSimLFPs2ftRawDataStr(LFP_NC_trials, Fs_lfp, Fs);
 
-ft_lfpGo_L3 = convSimLFPs2ftRawDataStr(LFP_Go_L3_trails, Fs_lfp, Fs);
-ft_lfpNC_L3 = convSimLFPs2ftRawDataStr(LFP_NC_L3_trails, Fs_lfp, Fs);
+ft_lfpGo_L3 = convSimLFPs2ftRawDataStr(LFP_Go_L3_trials, Fs_lfp, Fs);
+ft_lfpNC_L3 = convSimLFPs2ftRawDataStr(LFP_NC_L3_trials, Fs_lfp, Fs);
 
-ft_lfpGo_L5 = convSimLFPs2ftRawDataStr(LFP_Go_L5_trails, Fs_lfp, Fs);
-ft_lfpNC_L5 = convSimLFPs2ftRawDataStr(LFP_NC_L5_trails, Fs_lfp, Fs);
+ft_lfpGo_L5 = convSimLFPs2ftRawDataStr(LFP_Go_L5_trials, Fs_lfp, Fs);
+ft_lfpNC_L5 = convSimLFPs2ftRawDataStr(LFP_NC_L5_trials, Fs_lfp, Fs);
 
 % ---- low-pass filter the lfp at 100Hz
 ft_lfpGo.trial = cellfun(filterFunBut, ft_lfpGo.trial, ...
